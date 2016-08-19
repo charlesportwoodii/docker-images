@@ -32,7 +32,9 @@ RUN ldconfig
 # Download ECC key from Keybase
 RUN wget --quiet -O - https://keybase.io/charlesportwood/key.asc | apt-key add -
 RUN apt-get update
-RUN apt-get install libbrotli luajit-2.0 libbrotli -y
+RUN apt-get install libbrotli luajit-2.0 -y
+
+RUN ldconfig
 
 # Install FPM
 RUN gem install fpm
