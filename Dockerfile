@@ -20,6 +20,10 @@ RUN yum upgrade -y
 RUN yum group install "Development Tools" -y
 RUN yum install make automake autoconf which g++ build-essential glib2-devel glibc-devel git libmcrypt-devel libmcrypt gcc libtool libxml2-devel libicu-devel gcc-c++ bison libpng12-devel libjpeg-turbo readline-devel postgresql95-devel freetype-devel libjpeg-turbo-devel postgresql-devel ruby ruby-devel -y
 
+# Install Erianna RPM Repo and necessary extra packages
+RUN sh -c 'echo -e "[erianna]\nname=Erianna RPM Repository\nbaseurl=https://rpm.erianna.com/CentOS/7/x86_64\nenabled=1\ngpgcheck=0\nprotect=1\ngpgkey=https://keybase.io/charlesportwood/key.asc" > /etc/yum.repos.d/rpm.erianna.com.repo'
+RUN yum install libbrotli luajit-2.0 -y
+
 RUN ldconfig
 
 # Install FPM
