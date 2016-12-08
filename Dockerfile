@@ -22,6 +22,7 @@ RUN yum install make automake autoconf which bc geoip geoip-devel g++ build-esse
 
 # Install Erianna RPM Repo and necessary extra packages
 RUN sh -c 'echo -e "[erianna]\nname=Erianna RPM Repository\nbaseurl=https://rpm.erianna.com/CentOS/7/x86_64\nenabled=1\ngpgcheck=0\nprotect=1\ngpgkey=https://keybase.io/charlesportwood/key.asc" > /etc/yum.repos.d/rpm.erianna.com.repo'
+RUN yum --enablerepo=erianna clean metadata
 RUN yum install libbrotli luajit-2.0 -y
 
 RUN ldconfig
