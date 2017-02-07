@@ -37,5 +37,8 @@ RUN ldconfig
 # Install FPM
 RUN gem install fpm
 
+# Clear cached data
+RUN yum clean all -y
+
 # Unregister the docker image
 RUN subscription-manager unregister

@@ -41,3 +41,6 @@ RUN ldconfig
 
 # Install FPM
 RUN gem install fpm
+
+RUN apt-get clean -y
+RUN apt-get autoclean -y

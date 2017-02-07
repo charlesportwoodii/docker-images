@@ -31,3 +31,6 @@ RUN ldconfig
 
 # Install FPM
 RUN gem install fpm
+
+# Clear cached data
+RUN yum clean all -y
