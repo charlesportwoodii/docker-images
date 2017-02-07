@@ -1,5 +1,7 @@
 FROM centos:centos7
 MAINTAINER "https://github.com/charlesportwoodii/docker-images"
+ARG REDHAT_USER=ADDME
+ARG REDHAT_PASS=ADDME
 
 # Install pre-dependencies
 RUN yum install wget -y

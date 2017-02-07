@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND noninteractive
+ARG REDHAT_USER=ADDME
+ARG REDHAT_PASS=ADDME
 
 # Install pre-dependencies
 RUN apt-get update
