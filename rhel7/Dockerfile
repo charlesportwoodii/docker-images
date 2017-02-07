@@ -2,6 +2,8 @@ FROM registry.access.redhat.com/rhel7
 MAINTAINER "https://github.com/charlesportwoodii/docker-images"
 ARG REDHAT_USER=ADDME
 ARG REDHAT_PASS=ADDME
+ENV REDHAT_USER=${REDHAT_USER}
+ENV REDHAT_PASS=${REDHAT_PASS}
 
 RUN subscription-manager register --username=$REDHAT_USER --password=$REDHAT_PASS
 
