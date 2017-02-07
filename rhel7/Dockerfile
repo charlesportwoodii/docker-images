@@ -1,11 +1,12 @@
 FROM registry.access.redhat.com/rhel7
 MAINTAINER "https://github.com/charlesportwoodii/docker-images"
-ARG REDHAT_USER=ADDME
-ARG REDHAT_PASS=ADDME
+ARG REDHAT_USER
+ARG REDHAT_PASS
 ENV REDHAT_USER=${REDHAT_USER}
 ENV REDHAT_PASS=${REDHAT_PASS}
 
-RUN subscription-manager register --username=$REDHAT_USER --password=$REDHAT_PASS --auto-attach --environment=TravisCI
+RUN subscription-manager register --username=$REDHAT_USER --password=$REDHAT_PASS --auto-attach
+RUN subscription-manager repos  --enable rhel-7-server-optional-rpms
 
 # Install pre-dependencies
 RUN yum install wget -y
@@ -15,8 +16,8 @@ RUN wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum install epel-release-latest-7.noarch.rpm -y
 
 # Install Postgresql
-RUN wget https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
-RUN yum install pgdg-centos95-9.5-2.noarch.rpm -y
+RUN wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm
+run yum install pgdg-redhat96-9.6-3.noarch.rpm -y
 
 # Upgrade
 RUN yum update -y
