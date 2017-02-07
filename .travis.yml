@@ -30,8 +30,8 @@ before_script:
   - export TAG=$IMAGE
 
 script:
-  - docker build -f $IMAGE/Dockerfile -t $REPO:$COMMIT . --build-arg REDHAT_USER=$REDHAT_HSER --build-arg REDHAT_PASS=$REDHAT_PASS
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - docker build -f $IMAGE/Dockerfile -t $REPO:$COMMIT . --build-arg REDHAT_USER=$REDHAT_USER --build-arg REDHAT_PASS=$REDHAT_PASS
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker tag $REPO:$COMMIT $REPO:$TAG
   - docker tag $REPO:$COMMIT $REPO:travis-$IMAGE-$TRAVIS_BUILD_NUMBER
   - docker push $REPO
