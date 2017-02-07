@@ -5,7 +5,7 @@ ARG REDHAT_PASS=ADDME
 ENV REDHAT_USER=${REDHAT_USER}
 ENV REDHAT_PASS=${REDHAT_PASS}
 
-RUN subscription-manager register --username=$REDHAT_USER --password=$REDHAT_PASS
+RUN subscription-manager register --username=$REDHAT_USER --password=$REDHAT_PASS --auto-attach --environment=TravisCI
 
 # Install pre-dependencies
 RUN yum install wget -y
