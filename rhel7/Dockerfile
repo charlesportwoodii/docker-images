@@ -1,11 +1,11 @@
 FROM registry.access.redhat.com/rhel7
 MAINTAINER "https://github.com/charlesportwoodii/docker-images"
-ARG REDHAT_USER
-ARG REDHAT_PASS
-ENV REDHAT_USER=${REDHAT_USER}
-ENV REDHAT_PASS=${REDHAT_PASS}
 
-RUN subscription-manager register --username=$REDHAT_USER --password=$REDHAT_PASS --auto-attach
+COPY ./.secrets /
+RUN source /.secrets \
+    && subscription-manager register --username=$REDHAT_USER --password=$REDHAT_PASS --auto-attach && \
+    rm -rf /.secrets \
+    && export REDHAT_PASS=""
 RUN subscription-manager repos  --enable rhel-7-server-optional-rpms
 
 # Install pre-dependencies

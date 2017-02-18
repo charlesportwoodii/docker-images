@@ -1,7 +1,5 @@
 FROM ubuntu:14.04
 ENV DEBIAN_FRONTEND noninteractive
-ARG REDHAT_USER
-ARG REDHAT_PASS
 
 # Install pre-dependencies
 RUN apt-get update

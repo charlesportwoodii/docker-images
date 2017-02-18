@@ -22,15 +22,23 @@ env:
   # RedHat Username
   - secure: "SeRMLcyavpyyTSE1qvEWXpLyqKH9sMEM9Hk+j0vIpAJLaoIXm1lCyBaWdGTUpeFyc4U6aNq6UuIwD+CRXmg08AxFD+3LwxxnWkQsIzNHsVijpCRGet0ALa/dvagZfzzoo8GxBFwMIMAE4n60ziLbp636iac1dCW11GYPpw4gCdRKCdNESwUtmhmHn/pLHi2EFTZcuNDD4jI3A5niEf6vjFKuY/it75/tSeTsqxTgk/TFAsYgi41suGE27bRz82PtsdcdLGkl1n0rDVN8jFUK7ygCnpsX4/U2soWgaJjitxrSF8YqnpukG+QMWYznDrqlQeJEAN1H4H/FundZo5oNaKRkpe/M87IzseeTyS3NHBYaEGAbcs5lEFS5OsjVh3alIIg1nj9JvrLTRpZq0Axq+PzBjcFfDtJWv6iEmDZnoGa1I0T6zPp4pCBHHyKpcnZ1NqAMhGQ7ObSaqhdJ+R2bZCvCJcq2tFCaVXPzFa3a0L3wCaINWE2ZDxU8nUJG07/l0arwjpeXl1qk8ZNax06w00qsMVE2ndm/cjMOMdNQl/cEWIsWQn/4ds6PnHFGn2wvxZTXIj+OgKz8wBIsWqvZ0tlOXezf2tmPuKE2/nw3scNXzhnyas0MAhTtPojSsZExkyGF3m7RQsfl0N/ESgTRPIJArIMeerJS6F5SA2hExYs="
   # RedHat Pass
-  - secure: "t9r938YZi/q5NmLfrU2SyVIeqYvjngHNwS4cIAS0Shnl/sYZERwh7iuivGACL/yLBl0nGOT+CChhewwl6fZIZ6jn0rHuCDhd0mTIEydXP2c4jTrEKkPpB3GT67sZzn7dbADHRMYFHhzaC3sieaFaxEcXA0kS6Ao5PQSgJH/GdJ6ZmeMEKvpSETtSGMTMnkemJvWor4If8NYF7dTPNZFwZaHBcSSzCGdvAmSD1Tvga86xJAuI9pUGSuszM2kCX9Rqxzf1uaiq0p+DwJsumCp57sHCItqQc0NmTIjb2uZ1vzQ1a9vW2gubZZrsYi5niRajfPyv8hC/MjZ/gvPAuHeR3NNostXa9UP+SHKlMqqQIHJODh3OkkbwxkVVYaUZudvOOUlLES405JhZjZl7+/RU6nrBdcr8SloeiGoyoWZoONC5kIEufBi3A/smgIivtquO80uMdxEiOTf2jwF9CeQrRFrT1kKsS4nNcqLLBuFdFj2SUkod8ZQSD6FdyGpZhm5nYAK13U5VnEgivG9Xj+GLE62Zi6wKyC7dThEDucauR4vwtOqgiAA1yWoJeVlrjz1e+JP8upQsNkkygBQyKt33TeKaW91PZwWOIvsUHHSYmC7sLxaxWqIsW3Ef4cRgJMDQb2TrACTdQt6Dw9Z8QnSlAfhMMa8b/sk8wiHbqagglqE="
-  - COMMIT=${TRAVIS_COMMIT::8}
+  - secure: "IV/urssoyyrQd8AgeIzNN8f4dXXLhyMWNKMUeu1/7MHgjjFSJiIkgwIYxggE8CfrcgRWilDu1b5Y6OkTq9mK1SKvvCBU07YL1xKtk+A/8GNVyIMmu/0TQAXEbrho5eioMruEFz+99a1elf6dmIPOTRpcqpLsWHX4P8A2kIS23f03gpt2EJjzmEsNATTq3MUsT0bK5A1dMPXMv7pfqT3uDI9xaAlWPj0MtFp9Ip0PYHTHPh0bEX84ZjpLw80qFJJnHHskuTjhavlkkShL4U3J93gBaS3ArjisXyuMFQ3yl7IL2IRwpI0Cj6YmXY9xC5ZTSwYRLnHB4aUGSW5jTv41AwEYAFur08+q0HXvDBB0EqFtYcBu7GbT1nClP6LcfATWIWQpxWDy0DAEADP7oc45RfYkekkXoqqoXQlkAWslA88qRwNQJ4y4/L/l7p0i6JcgbSrFKxoEb5AKRWeegtZzXRldeA4g2WG9eeHWmrR93RgY+V1Q3p9n8fj/FzZO8NANXgqTvJeQ0MogOhdK+QgyMzPlAlC1d+7LmcsVuTq9pJisfJVrmq0hHtM1JlZpy5CFLugIghEc5jJDvx3qcKvh5TSDqmeqkOFz5J5xaZaRdYqjJV1nopBg5O4NzhWWJDIaN9PlJ7ohxtPS2KG9RQowgPfVQfb7RESOpjmng0nEvPQ="
 
 before_script:
+  - sudo apt-get update
+  - curl -fsSL https://apt.dockerproject.org/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-trusty main"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-engine=$DOCKER_VERSION
   - export REPO=charlesportwoodii/docker-images
-  - export TAG=$IMAGE
+  - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
+  - echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
+  - docker --version
+
+after_script:
+  - rm .secrets
 
 script:
-  - docker build -f $IMAGE/Dockerfile -t $REPO:$COMMIT . --build-arg REDHAT_USER=$REDHAT_USER --build-arg REDHAT_PASS=$REDHAT_PASS
+  - docker build -f $IMAGE/Dockerfile -t $REPO:$IMAGE --label $IMAGE --compress .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker tag $REPO:$COMMIT $REPO:$TAG
   - docker push $REPO
