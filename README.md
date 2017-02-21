@@ -65,7 +65,28 @@ By default, `/var/log/nginx/error.log` and `/var/log/nginx/access.log` is redire
 
 PHP is a popular general-purpose scripting language that is especially suited to web development. (https://www.php.net)
 
-As I bundle PHP packages for multiple versions, please see the relevant sections below for more information
+As I bundle PHP packages for multiple versions, please see the relevant sections below for more information. In general you can start a PHP docker image by running:
+
+    ```bash
+    docker run  -p <port>:90(56|70|71)
+                -v <php_working_dir>:/etc/php/(56|70|71)
+                charlesportwoodii/<xenial|trusty|centos7|rhel7>:php(56|70|71)
+    ```
+
+By default FPM is listening on 90(56|70|71), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.
+
+Additionally, the entirety of `/etc/php(56|70|71)` is available for mounting. If you have your own custom configuration you would like to load you may do so. In general the folder structure PHP FPM expects is listed below:
+
+```
+# Directories
+./conf.d # PHP modules
+./mods-available # Available modules that are not installed (such as Redis)
+./php-fpm.d # The FPM pool directory
+
+# Files
+./php-fpm.conf # The main FPM configuration file
+./php.ini # Your PHP ini file
+```
 
 #### 7.1
 
