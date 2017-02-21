@@ -30,9 +30,9 @@ Disque is a distributed job server (see https://github.com/antirez/disque).
 
 The following command will start a disque server running on the OS of your choice on the selected port:
 
-    ```bash
-    docker run -p <port>:7711 charlesportwoodii/<xenial|trusty|centos7|rhel7>:disque
-    ```
+```bash
+docker run -p <port>:7711 charlesportwoodii/<xenial|trusty|centos7|rhel7>:disque
+```
 
 ### Nginx Mainline
 
@@ -40,24 +40,24 @@ NGINX is a free, open-source, high-performance HTTP server and reverse proxy (ht
 
 This docker image exposes port `80` and port `443`. Additionally the following directories are exposed:
 
-    ```
-    /etc/nginx/conf/conf.d
-    /etc/nginx/conf/includes
-    /etc/nginx/conf/ssl
-    /var/www
-    ```
+```
+/etc/nginx/conf/conf.d
+/etc/nginx/conf/includes
+/etc/nginx/conf/ssl
+/var/www
+```
 
 A default server is created on port 80, however you should mount your own custom configurations into `/etc/nginx/conf/conf.d`
 
-    ```bash
-    docker run  -p <port1>:80 \
-                -p <port2>:443 \
-                -v <conf.d_dir>:/etc/nginx/conf/conf.d \
-                -v <includes_dir>:/etc/nginx/conf/includes \
-                -v <ssl_dir>:/etc/nginx/conf/ssl \
-                -v <webroot>:/var/www \
-                charlesportwoodii/<xenial|trusty|centos7|rhel7>:nginx
-    ```
+```bash
+docker run  -p <port1>:80 \
+            -p <port2>:443 \
+            -v <conf.d_dir>:/etc/nginx/conf/conf.d \
+            -v <includes_dir>:/etc/nginx/conf/includes \
+            -v <ssl_dir>:/etc/nginx/conf/ssl \
+            -v <webroot>:/var/www \
+            charlesportwoodii/<xenial|trusty|centos7|rhel7>:nginx
+```
 
 By default, `/var/log/nginx/error.log` and `/var/log/nginx/access.log` is redirected to `/dev/stdout`.
 
@@ -67,17 +67,17 @@ PHP is a popular general-purpose scripting language that is especially suited to
 
 As I bundle PHP packages for multiple versions, please see the relevant sections below for more information. In general you can start a PHP docker image by running:
 
-    ```bash
-    docker run  -p <port>:90(56|70|71)
-                -v <php_working_dir>:/etc/php/(56|70|71)
-                charlesportwoodii/<xenial|trusty|centos7|rhel7>:php(56|70|71)
-    ```
+```bash
+docker run  -p <port>:90(56|70|71)
+            -v <php_working_dir>:/etc/php/(56|70|71)
+            charlesportwoodii/<xenial|trusty|centos7|rhel7>:php(56|70|71)
+```
 
 By default FPM is listening on 90(56|70|71), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.
 
 Additionally, the entirety of `/etc/php(56|70|71)` is available for mounting. If you have your own custom configuration you would like to load you may do so. In general the folder structure PHP FPM expects is listed below:
 
-```
+```bash
 # Directories
 ./conf.d # PHP modules
 ./mods-available # Available modules that are not installed (such as Redis)
