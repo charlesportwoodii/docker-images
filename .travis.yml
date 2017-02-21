@@ -5,6 +5,9 @@ language: generic
 services:
   - docker
 
+matrix:
+  fast_finish: true
+
 env:
   matrix:
     - OS=trusty IMAGE=base
