@@ -7,10 +7,14 @@ services:
 
 env:
   matrix:
-    - IMAGE=trusty
-    - IMAGE=xenial
-    - IMAGE=centos7
-    - IMAGE=rhel7
+    - OS=trusty IMAGE=base
+    - OS=trusty IMAGE=build
+    - OS=xenial IMAGE=base
+    - OS=xenial IMAGE=build
+    - OS=centos7 IMAGE=base
+    - OS=centos7 IMAGE=build
+    - OS=rhel7 IMAGE=base
+    - OS=rhel7 IMAGE=build
 
   global:
   # Docker Email
@@ -30,7 +34,7 @@ before_script:
   - sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-trusty main"
   - sudo apt-get update
   - sudo apt-get -y install docker-engine=$DOCKER_VERSION
-  - export REPO=charlesportwoodii/docker-images
+  - export REPO=charlesportwoodii/$OS
   - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
   - echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
   - docker --version
@@ -39,6 +43,6 @@ after_script:
   - rm .secrets
 
 script:
-  - docker build -f $IMAGE/Dockerfile -t $REPO:$IMAGE --label $IMAGE --compress .
+  - docker build -f $OS/$IMAGE/Dockerfile -t $REPO:$IMAGE --compress .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
