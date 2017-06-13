@@ -11,7 +11,7 @@ RUN yum update -y && \
     yum upgrade -y
 
 # Install Erianna RPM Repo and necessary extra packages
-RUN sh -c 'echo -e "[erianna]\nname=Erianna RPM Repository\nbaseurl=https://rpm.erianna.com/CentOS/7/x86_64\nenabled=1\ngpgcheck=1\nprotect=1\ngpgkey=https://keybase.io/charlesportwood/key.asc" > /etc/yum.repos.d/rpm.erianna.com.repo' && \
+RUN sh -c 'echo -e "[erianna]\nname=Erianna RPM Repository\nbaseurl=https://rpm.erianna.com/CentOS/7/x86_64\nenabled=1\ngpgcheck=0\nprotect=1\ngpgkey=https://keybase.io/charlesportwood/key.asc" > /etc/yum.repos.d/rpm.erianna.com.repo' && \
     yum --enablerepo=erianna clean metadata && \
     yum clean all && \ 
     ldconfig

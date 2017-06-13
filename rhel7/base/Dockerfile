@@ -7,7 +7,7 @@ RUN curl -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.r
     rm epel-release-latest-7.noarch.rpm
 
 # Install Erianna RPM Repo and necessary extra packages
-RUN sh -c 'echo -e "[erianna]\nname=Erianna RPM Repository\nbaseurl=https://rpm.erianna.com/RHEL/7/x86_64\nenabled=1\ngpgcheck=1\nprotect=1\ngpgkey=https://keybase.io/charlesportwood/key.asc" > /etc/yum.repos.d/rpm.erianna.com.repo' && \
+RUN sh -c 'echo -e "[erianna]\nname=Erianna RPM Repository\nbaseurl=https://rpm.erianna.com/RHEL/7/x86_64\nenabled=1\ngpgcheck=0\nprotect=1\ngpgkey=https://keybase.io/charlesportwood/key.asc" > /etc/yum.repos.d/rpm.erianna.com.repo' && \
     yum --enablerepo=erianna clean metadata && \
     yum clean all && \
     ldconfig
