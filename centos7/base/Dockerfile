@@ -2,7 +2,7 @@ FROM centos:centos7
 MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
 
 # Install EPEL
-RUN curl -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+RUN curl -O https://download-ib01.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum install epel-release-latest-7.noarch.rpm -y && \
     rm epel-release-latest-7.noarch.rpm
 
