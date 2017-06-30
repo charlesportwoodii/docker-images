@@ -48,6 +48,8 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
     /root/.bin/composer self-update
 
+RUN for i in $(ls /etc/php/7.0/mods-available); do ln -s /etc/php/7.1/mods-available/$i /etc/php/7.0/conf.d/$i; done;
+
 # Define mountable directories.
 VOLUME ["/etc/php/7.0/", "/var/www"]
 
