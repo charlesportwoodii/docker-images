@@ -52,7 +52,8 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
 
 RUN for i in $(ls /etc/php/7.0/mods-available); do ln -s /etc/php/7.1/mods-available/$i /etc/php/7.0/conf.d/$i; done;
 
-RUN apt-get remove build-essential make automake autoconf --purge -y
+RUN apt-get remove build-essential make automake autoconf --purge -y && \
+    apt-get autoremove -y
 
 RUN rm -rf /tmp/*
 
