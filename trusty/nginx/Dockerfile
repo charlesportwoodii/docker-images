@@ -2,9 +2,6 @@ FROM charlesportwoodii/trusty:base
 ENV DEBIAN_FRONTEND noninteractive
 MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
 
-COPY ./conf/etc/nginx/conf/nginx.conf /etc/nginx/conf/nginx.conf
-COPY ./conf/etc/nginx/conf/conf.d/server.conf /etc/nginx/conf/conf.d/server.conf
-
 RUN apt-get update && \
     apt-get install nginx-mainline -y && \
     apt-get clean

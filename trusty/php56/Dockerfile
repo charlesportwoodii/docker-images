@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get clean
 
 # Define mountable directories.
-VOLUME ["/etc/php/5.6/"]
+VOLUME ["/etc/php/5.6/", "/var/www"]
 
 # Define working directory.
 WORKDIR /etc/php/5.6

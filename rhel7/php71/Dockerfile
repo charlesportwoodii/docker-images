@@ -17,7 +17,7 @@ RUN yum install php7.1-fpm libpng libpng12 freetype freetype-devel -y && \
     yum clean all
 
 # Define mountable directories.
-VOLUME ["/etc/php/7.1/"]
+VOLUME ["/etc/php/7.1/", "/var/www"]
 
 # Define working directory.
 WORKDIR /etc/php/7.1

@@ -10,7 +10,7 @@ RUN yum install php5.6-fpm libpng libpng12 freetype freetype-devel -y && \
     yum clean all
 
 # Define mountable directories.
-VOLUME ["/etc/php/5.6/"]
+VOLUME ["/etc/php/5.6/", "/var/www"]
 
 # Define working directory.
 WORKDIR /etc/php/5.6

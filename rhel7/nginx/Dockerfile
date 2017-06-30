@@ -9,9 +9,6 @@ RUN source /.secrets \
     rm -rf /.secrets \
     && export REDHAT_PASS=""
 
-COPY ./conf/etc/nginx/conf/nginx.conf /etc/nginx/conf/nginx.conf
-COPY ./conf/etc/nginx/conf/conf.d/server.conf /etc/nginx/conf/conf.d/server.conf
-
 RUN yum install nginx-mainline -y
 
 RUN useradd -r www-data && \
