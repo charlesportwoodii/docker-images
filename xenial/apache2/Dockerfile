@@ -8,7 +8,9 @@ RUN echo "deb http://ppa.launchpad.net/ondrej/apache2/ubuntu xenial main" | tee 
 
 RUN mkdir -p /etc/apache2/conf/certs && \
     mkdir -p /etc/apache2/sites-enabled && \
-    mkdir -p /var/log/apache2
+    mkdir -p /var/log/apache2 && \
+    ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
+    ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
 RUN apt-get update && \
     apt-get install apache2 libapache2-mod-fastcgi libapache2-mod-gnutls libapache2-mod-geoip libapache2-modsecurity libapache2-mod-security2 -y && \
@@ -20,9 +22,6 @@ RUN apt-get update && \
     a2enmod ssl && \
     a2enmod headers && \
     a2enmod proxy_fcgi
-
-RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
-    ln -sf /proc/self/fd/1 /var/log/apache2/error.log
     
 VOLUME ["/var/www/", "/etc/apache2/sites-enabled", "/etc/apache2/conf/certs"]
 

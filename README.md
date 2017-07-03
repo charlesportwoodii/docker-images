@@ -20,6 +20,10 @@ A full list of images that TravisCI builds is listed below. The created images w
 
 > *RHEL7 builds are built against RedHat provided developer images. The built images is intended solely for the building of packages and for no other purpose. The image is _not_ registered or subscribed. If you wish to use the RHEL7 image you must subscribe it using your own developer credentials.
 
+## Example Compose Files
+
+See the [EXAMPLES.md](EXAMPLES.md) directory for `docker-compose.yml` examples for how to use these images together.
+
 ## Software Images
 
 In addition to the `base` and `build` images, the following extra images are provided to showcase the packages that are built on TravisCI.
@@ -91,14 +95,14 @@ PHP is a popular general-purpose scripting language that is especially suited to
 As I bundle PHP packages for multiple versions, please see the relevant sections below for more information. In general you can start a PHP docker image by running:
 
 ```bash
-docker run  -p <port>:90(56|70|71)
-            -v <php_working_dir>:/etc/php/(56|70|71)
-            charlesportwoodii/<xenial|centos7|rhel7>:php(56|70|71)
+docker run  -p <port>:90(70|71)
+            -v <php_working_dir>:/etc/php/(70|71)
+            charlesportwoodii/<xenial|centos7|rhel7>:php(70|71)
 ```
 
-By default FPM is listening on 90(56|70|71), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.
+By default FPM is listening on 90(70|71), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.
 
-Additionally, the entirety of `/etc/php(56|70|71)` is available for mounting. If you have your own custom configuration you would like to load you may do so. In general the folder structure PHP FPM expects is listed below:
+Additionally, the entirety of `/etc/php(70|71)` is available for mounting. If you have your own custom configuration you would like to load you may do so. In general the folder structure PHP FPM expects is listed below:
 
 ```bash
 # Directories
@@ -117,11 +121,7 @@ Additionally, the entirety of `/etc/php(56|70|71)` is available for mounting. If
 
 #### 7.0
 
-> 7.0 images are available for all available platforms
-
-#### 5.6
-
-> 5.6 images are available only for `xenial`, `centos7`, and `trusty`.  Please note that PHP 5.6 is only receiving security patches. I strongly advise to use a different version of PHP
+> 7.0 images are only available for `xenial`, `centos7`, and `rhel7`. `trusty` images are not provided.
 
 
 

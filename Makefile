@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 OS?=xenial centos7 rhel7 trusty
-PACKAGE?=nginx php56 php70 php71 disque
+PACKAGE?=nginx apache2 php70 php71 disque
 
 all: build packages push
 
