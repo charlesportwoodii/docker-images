@@ -31,7 +31,7 @@ Disque is a distributed job server (see https://github.com/antirez/disque).
 The following command will start a disque server running on the OS of your choice on the selected port:
 
 ```bash
-docker run -p <port>:7711 charlesportwoodii/<xenial|trusty|centos7|rhel7>:disque
+docker run -p <port>:7711 charlesportwoodii/<xenial|centos7|rhel7>:disque
 ```
 
 ### Nginx Mainline
@@ -56,10 +56,33 @@ docker run  -p <port1>:80 \
             -v <includes_dir>:/etc/nginx/conf/includes \
             -v <ssl_dir>:/etc/nginx/conf/ssl \
             -v <webroot>:/var/www \
-            charlesportwoodii/<xenial|trusty|centos7|rhel7>:nginx
+            charlesportwoodii/<xenial|centos7|rhel7>:nginx
 ```
 
 By default, `/var/log/nginx/error.log` and `/var/log/nginx/access.log` is redirected to `/dev/stdout`.
+
+### Apache
+
+Apache2 is free and open-source, cross-platform web server software.
+
+This docker image exposes port `80` and port `443`. Additionally the following directories are exposed:
+
+```
+/etc/apache2/sites-enabled
+/etc/apache2/conf/certs
+/var/www
+```
+
+A default server is created on port 80, however you should mount your own custom configurations into `/etc/nginx/conf/conf.d`
+
+```bash
+docker run  -p <port1>:80 \
+            -p <port2>:443 \
+            -v <conf.d_dir>://etc/apache2/sites-enabled \
+            -v <ssl_dir>:/etc/apache2/conf/certsl \
+            -v <webroot>:/var/www \
+            charlesportwoodii/<xenial>:nginx
+```
 
 ### PHP
 
@@ -70,7 +93,7 @@ As I bundle PHP packages for multiple versions, please see the relevant sections
 ```bash
 docker run  -p <port>:90(56|70|71)
             -v <php_working_dir>:/etc/php/(56|70|71)
-            charlesportwoodii/<xenial|trusty|centos7|rhel7>:php(56|70|71)
+            charlesportwoodii/<xenial|centos7|rhel7>:php(56|70|71)
 ```
 
 By default FPM is listening on 90(56|70|71), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.

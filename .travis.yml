@@ -18,12 +18,6 @@ env:
     - OS=centos7 IMAGE=build
     - OS=rhel7 IMAGE=base
     - OS=rhel7 IMAGE=build
-    # Specific images
-    - OS=xenial IMAGE=nginx
-    - OS=xenial IMAGE=php71
-    - OS=xenial IMAGE=php70
-    - OS=rhel7 IMAGE=nginx
-    - OS=centos7 IMAGE=nginx
 
   global:
   # Docker Email
