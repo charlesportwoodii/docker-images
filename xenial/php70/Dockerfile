@@ -7,7 +7,7 @@ COPY ./conf/etc/php/7.0/php-fpm.conf /etc/php/7.0/php-fpm.conf
 
 RUN mkdir -p /etc/php/7.0/conf.d /etc/php/7.0/php-fpm.d /etc/php/7.0/mods-available /var/run/php/ /var/log/php/
 RUN apt-get update && \
-    apt-get install php7.0-fpm libpng12-0 libfreetype6 build-essential make automake autoconf git -y && \
+    apt-get install php7.0-fpm libpng12-0 libfreetype6 build-essential make automake autoconf git --no-install-recommends -y && \
     apt-get install php-pear -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -28,19 +28,14 @@ RUN cd /tmp && \
     wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.12.tar.gz && \
     tar -xzf libsodium-1.0.12.tar.gz && \
     cd libsodium-1.0.12 && \
-    ./configure && make install && \
+    ./configure && \
+    make install && \
     cd /tmp && \
-    git clone https://github.com/jedisct1/libsodium-php -b 1.0.6 && \
-    cd libsodium-php && \
-    phpize && \
-    ./configure && make install && \
-    echo "extension=libsodium.so" | tee /etc/php/7.0/conf.d/libsodium.ini && \
-    rm -rf /tmp/libsodium-php && \
     git clone https://github.com/jedisct1/libsodium-php -b 2.0.0 && \
     cd libsodium-php && \
     phpize && \
     ./configure && make install && \
-    echo "extension=sodium.so" | tee /etc/php/7.0/conf.d/sodium.ini && \
+    echo "extension=sodium.so" | tee --append /etc/php/7.0/conf.d/sodium.ini && \
     rm -rf /tmp/libsodium-php && \
     rm -rf /tmp/libsodium-1.0.12
 

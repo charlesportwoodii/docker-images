@@ -25,4 +25,5 @@ RUN wget https://deb.erianna.com/amd64/xenial-extra/php7.1-oci8-2.1.4~xenial_x86
 RUN apt-get remove alien --purge -y && \
     apt-get autoremove -y && \
     apt-get clean && \ 
-    apt-get autoclean
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/*
