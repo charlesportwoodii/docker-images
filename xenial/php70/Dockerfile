@@ -9,7 +9,8 @@ RUN mkdir -p /etc/php/7.0/conf.d /etc/php/7.0/php-fpm.d /etc/php/7.0/mods-availa
 RUN apt-get update && \
     apt-get install php7.0-fpm libpng12-0 libfreetype6 build-essential make automake autoconf git -y && \
     apt-get install php-pear -y && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp && \
     wget http://xdebug.org/files/xdebug-2.5.4.tgz && \
@@ -34,6 +35,12 @@ RUN cd /tmp && \
     phpize && \
     ./configure && make install && \
     echo "extension=libsodium.so" | tee /etc/php/7.0/conf.d/libsodium.ini && \
+    rm -rf /tmp/libsodium-php && \
+    git clone https://github.com/jedisct1/libsodium-php -b 2.0.0 && \
+    cd libsodium-php && \
+    phpize && \
+    ./configure && make install && \
+    echo "extension=sodium.so" | tee /etc/php/7.0/conf.d/sodium.ini && \
     rm -rf /tmp/libsodium-php && \
     rm -rf /tmp/libsodium-1.0.12
 

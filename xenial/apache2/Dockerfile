@@ -21,7 +21,9 @@ RUN apt-get update && \
     a2dismod gnutls && \
     a2enmod ssl && \
     a2enmod headers && \
-    a2enmod proxy_fcgi
+    a2enmod proxy_fcgi && \
+    apt-get purge -y --auto-remove && \
+    rm -rf /var/lib/apt/lists/*
     
 VOLUME ["/var/www/", "/etc/apache2/sites-enabled", "/etc/apache2/conf/certs"]
 

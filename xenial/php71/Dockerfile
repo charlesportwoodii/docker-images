@@ -9,7 +9,8 @@ RUN mkdir -p /etc/php/7.1/conf.d /etc/php/7.1/php-fpm.d /etc/php/7.1/mods-availa
 RUN apt-get update && \
     apt-get install php7.1-fpm libpng12-0 libfreetype6 build-essential make automake autoconf git -y && \
     apt-get install php-pear -y && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp && \
     wget http://xdebug.org/files/xdebug-2.5.4.tgz && \
@@ -20,7 +21,8 @@ RUN cd /tmp && \
     echo "zend_extension=xdebug.so" | tee /etc/php/7.1/conf.d/xdebug.ini && \
     echo "xdebug.remote_enable = 1" | tee --append  /etc/php/7.1/conf.d/xdebug.ini && \
     echo "xdebug.remote_autostart = 1" | tee --append /etc/php/7.1/conf.d/xdebug.ini && \
-    echo "xdebug.remote_connect_back = 1" | tee --append /etc/php/7.1/conf.d/xdebug.ini
+    echo "xdebug.remote_connect_back = 1" | tee --append /etc/php/7.1/conf.d/xdebug.ini && \
+    rm -rf /tmp/xdebug-2.5.4
 
 RUN cd /tmp && \
     wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.12.tar.gz && \
@@ -32,7 +34,15 @@ RUN cd /tmp && \
     cd libsodium-php && \
     phpize && \
     ./configure && make install && \
-    echo "extension=libsodium.so" | tee /etc/php/7.1/conf.d/libsodium.ini
+    echo "extension=libsodium.so" | tee /etc/php/7.1/conf.d/libsodium.ini && \
+    rm -rf /tmp/libsodium-php && \
+    git clone https://github.com/jedisct1/libsodium-php -b 2.0.0 && \
+    cd libsodium-php && \
+    phpize && \
+    ./configure && make install && \
+    echo "extension=sodium.so" | tee /etc/php/7.1/conf.d/sodium.ini && \
+    rm -rf /tmp/libsodium-php && \
+    rm -rf /tmp/libsodium-1.0.12
 
 RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     mkdir -p /root/.bin && \

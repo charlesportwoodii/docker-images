@@ -21,4 +21,6 @@ RUN wget --quiet -O - https://gist.githubusercontent.com/charlesportwoodii/702ab
 # Clean the repository data
 RUN apt-get update && \
     apt-get clean -y && \
-    apt-get autoclean -y
+    apt-get autoclean -y  && \
+    apt-get purge -y --auto-remove && \
+    rm -rf /var/lib/apt/lists/*

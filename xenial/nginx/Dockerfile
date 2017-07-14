@@ -4,7 +4,9 @@ MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
 
 RUN apt-get update && \
     apt-get install nginx-mainline -y && \
-    apt-get clean
+    apt-get clean && \
+    apt-get purge -y --auto-remove && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/nginx/conf/conf.d /etc/nginx/conf/includes /var/www && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
