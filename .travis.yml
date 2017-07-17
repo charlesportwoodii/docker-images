@@ -46,6 +46,6 @@ after_script:
   - rm .secrets
 
 script:
-  - docker build -f $OS/$IMAGE/Dockerfile -t $REPO:$IMAGE --compress .
+  - docker build -f $OS/$IMAGE/Dockerfile -t $REPO:$IMAGE --compress --squash .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO

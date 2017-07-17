@@ -10,7 +10,7 @@ package:
 		docker pull charlesportwoodii/$$i:build; \
 		for j in $(PACKAGE); do \
 			if [ -d ./$$i/$$j ]; then \
-				docker build -f $$i/$$j/Dockerfile -t charlesportwoodii/$$i:$$j --compress .; \
+				docker build -f $$i/$$j/Dockerfile -t charlesportwoodii/$$i:$$j --compress --squash .; \
 			fi \
 		done \
 	done

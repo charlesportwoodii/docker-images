@@ -2,41 +2,46 @@ FROM charlesportwoodii/xenial:base
 ENV DEBIAN_FRONTEND noninteractive
 MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
 
-COPY ./conf/etc/php/7.1/php-fpm.d/pool.conf /etc/php/7.1/php-fpm.d/pool.conf
-COPY ./conf/etc/php/7.1/php-fpm.conf /etc/php/7.1/php-fpm.conf
+ENV XDEBUG_VERSION 2.5.5
+ENV LIBSODIUM_VERSION 1.0.13
+ENV SODIUM_EXT_VERSION 2.0.2
+ENV PHP_VERSION 7.1
 
-RUN mkdir -p /etc/php/7.1/conf.d /etc/php/7.1/php-fpm.d /etc/php/7.1/mods-available /var/run/php/ /var/log/php/
+COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
+COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
+
+RUN mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/
 RUN apt-get update && \
-    apt-get install php7.1-fpm libpng12-0 libfreetype6 build-essential make automake autoconf git --no-install-recommends -y && \
+    apt-get install php${PHP_VERSION}-fpm libpng12-0 libfreetype6 build-essential make automake autoconf git --no-install-recommends -y && \
     apt-get install php-pear -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp && \
-    wget http://xdebug.org/files/xdebug-2.5.4.tgz && \
-    tar -xf xdebug-2.5.4.tgz && \
-    cd xdebug-2.5.4 && \
+    wget http://xdebug.org/files/xdebug-${XDEBUG_VERSION}.tgz && \
+    tar -xf xdebug-${XDEBUG_VERSION}.tgz && \
+    cd xdebug-${XDEBUG_VERSION} && \
     phpize && \
     ./configure && make install && \
-    echo "zend_extension=xdebug.so" | tee /etc/php/7.1/conf.d/xdebug.ini && \
-    echo "xdebug.remote_enable = 1" | tee --append  /etc/php/7.1/conf.d/xdebug.ini && \
-    echo "xdebug.remote_autostart = 1" | tee --append /etc/php/7.1/conf.d/xdebug.ini && \
-    echo "xdebug.remote_connect_back = 1" | tee --append /etc/php/7.1/conf.d/xdebug.ini && \
-    rm -rf /tmp/xdebug-2.5.4
+    echo "zend_extension=xdebug.so" | tee /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
+    echo "xdebug.remote_enable=1" | tee --append  /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
+    echo "xdebug.remote_autostart=1" | tee --append /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
+    rm -rf /tmp/xdebug-${XDEBUG_VERSION}
 
 RUN cd /tmp && \
-    wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.12.tar.gz && \
-    tar -xzf libsodium-1.0.12.tar.gz && \
-    cd libsodium-1.0.12 && \
+    wget https://download.libsodium.org/libsodium/releases/libsodium-${LIBSODIUM_VERSION}.tar.gz && \
+    tar -xzf libsodium-${LIBSODIUM_VERSION}.tar.gz && \
+    cd libsodium-${LIBSODIUM_VERSION} && \
     ./configure && make install && \
     cd /tmp && \
-    git clone https://github.com/jedisct1/libsodium-php -b 2.0.0 && \
+    git clone https://github.com/jedisct1/libsodium-php -b ${SODIUM_EXT_VERSION} && \
     cd libsodium-php && \
     phpize && \
     ./configure && make install && \
-    echo "extension=sodium.so" | tee --append /etc/php/7.1/conf.d/sodium.ini && \
+    echo "extension=sodium.so" | tee --append /etc/php/${PHP_VERSION}/conf.d/sodium.ini && \
     rm -rf /tmp/libsodium-php && \
-    rm -rf /tmp/libsodium-1.0.12
+    rm -rf /tmp/libsodium-${LIBSODIUM_VERSION} && \
+    rm -rf /tmp/libsodium-${LIBSODIUM_VERSION}.tar.gz
 
 RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     mkdir -p /root/.bin && \
@@ -51,7 +56,7 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
     /root/.bin/composer self-update
 
-RUN for i in $(ls /etc/php/7.1/mods-available); do ln -s /etc/php/7.1/mods-available/$i /etc/php/7.1/conf.d/$i; done;
+RUN for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done;
 
 RUN apt-get remove build-essential make automake autoconf --purge -y && \
     apt-get autoremove -y
@@ -65,6 +70,5 @@ VOLUME ["/etc/php/7.1/", "/var/www"]
 WORKDIR /etc/php/7.1
 
 EXPOSE 9071
-EXPOSE 9000
 
 ENTRYPOINT ["/usr/sbin/php-fpm7.1", "--fpm-config", "/etc/php/7.1/php-fpm.conf"]

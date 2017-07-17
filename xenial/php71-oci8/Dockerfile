@@ -6,7 +6,7 @@ COPY ./build/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm /tmp/oracle-
 COPY ./build/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm /tmp/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
 
 RUN apt-get update && \
-    apt-get install alien libaio1 -y && \
+    apt-get install alien libaio1 --no-install-recommends -y && \
     rm -rf /var/lib/apt/lists/*
 
 RUN alien -iv /tmp/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
