@@ -33,8 +33,8 @@ before_install:
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-get -y install docker-ce -y -qq
-  - echo "{\"experimental\": true}" | sudo tee --append /etc/docker/daemon.json
-  - sudo systemctl restart docker
+  - echo "DOCKER_OPTS=--experimental=true " | sudo tee --append /etc/default/docker
+  - sudo service docker restart
 
 before_script:
   - docker version
