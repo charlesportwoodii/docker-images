@@ -28,18 +28,13 @@ env:
   # RedHat Pass
   - secure: "IV/urssoyyrQd8AgeIzNN8f4dXXLhyMWNKMUeu1/7MHgjjFSJiIkgwIYxggE8CfrcgRWilDu1b5Y6OkTq9mK1SKvvCBU07YL1xKtk+A/8GNVyIMmu/0TQAXEbrho5eioMruEFz+99a1elf6dmIPOTRpcqpLsWHX4P8A2kIS23f03gpt2EJjzmEsNATTq3MUsT0bK5A1dMPXMv7pfqT3uDI9xaAlWPj0MtFp9Ip0PYHTHPh0bEX84ZjpLw80qFJJnHHskuTjhavlkkShL4U3J93gBaS3ArjisXyuMFQ3yl7IL2IRwpI0Cj6YmXY9xC5ZTSwYRLnHB4aUGSW5jTv41AwEYAFur08+q0HXvDBB0EqFtYcBu7GbT1nClP6LcfATWIWQpxWDy0DAEADP7oc45RfYkekkXoqqoXQlkAWslA88qRwNQJ4y4/L/l7p0i6JcgbSrFKxoEb5AKRWeegtZzXRldeA4g2WG9eeHWmrR93RgY+V1Q3p9n8fj/FzZO8NANXgqTvJeQ0MogOhdK+QgyMzPlAlC1d+7LmcsVuTq9pJisfJVrmq0hHtM1JlZpy5CFLugIghEc5jJDvx3qcKvh5TSDqmeqkOFz5J5xaZaRdYqjJV1nopBg5O4NzhWWJDIaN9PlJ7ohxtPS2KG9RQowgPfVQfb7RESOpjmng0nEvPQ="
 
-before_script:
-  - sudo apt-get update && sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common -y
+before_install:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-  - sudo apt-get update && sudo apt-get install docker-ce -y
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce -y -qq
+
+before_script:
   - docker --version
   - export REPO=charlesportwoodii/$OS
   - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
