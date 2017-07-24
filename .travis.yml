@@ -37,7 +37,7 @@ before_install:
   - sudo systemctl restart docker
 
 before_script:
-  - docker --version
+  - docker version
   - export REPO=charlesportwoodii/$OS
   - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
   - echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
