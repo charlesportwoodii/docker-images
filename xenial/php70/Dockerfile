@@ -4,7 +4,7 @@ MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
 
 ENV XDEBUG_VERSION 2.5.5
 ENV LIBSODIUM_VERSION 1.0.13
-ENV SODIUM_EXT_VERSION 2.0.2
+ENV SODIUM_EXT_VERSION 2.0.4
 ENV PHP_VERSION 7.0
 
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
