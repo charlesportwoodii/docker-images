@@ -1,4 +1,4 @@
-FROM charlesportwoodii/xenial:php71
+FROM charlesportwoodii/xenial-test:php71
 ENV DEBIAN_FRONTEND nointeractive
 MAINTAINER charlesportwoodii@erianna.com
 

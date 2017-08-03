@@ -3,19 +3,24 @@ ENV DEBIAN_FRONTEND noninteractive
 MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
 
 ENV XDEBUG_VERSION 2.5.5
-ENV LIBSODIUM_VERSION 1.0.13
-ENV SODIUM_EXT_VERSION 2.0.4
 ENV PHP_VERSION 7.1
+
+RUN sh -c 'echo "deb https://deb.erianna.com xenial-test test" > /etc/apt/sources.list.d/deb.erianna.com.list' && \
+    apt-get update && \
+    apt-get install libxslt1-dev libpng12-0 libfreetype6 build-essential make automake autoconf git php7.1-fpm --no-install-recommends -y && \
+    apt-get install php7.1-sodium php7.1-argon2 php7.1-bz2 php7.1-enchant php7.1-gd php7.1-gmp php7.1-intl php7.1-mysql php7.1-ldap php7.1-mbstring php7.1-mcrypt php7.1-mysql php7.1-recode php7.1-redis php7.1-sqlite3 php7.1-xml php7.1-xsl php7.1-zip --no-install-recommends -y && \
+    rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
+    mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
+    for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \
+    sh -c 'echo "deb https://deb.erianna.com xenial main" > /etc/apt/sources.list.d/deb.erianna.com.list' && \
+    apt-get update && \
+    apt-get install php-pear -y && \
+    sh -c 'echo "deb https://deb.erianna.com xenial-test test" > /etc/apt/sources.list.d/deb.erianna.com.list' && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
-
-RUN mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/
-RUN apt-get update && \
-    apt-get install php${PHP_VERSION}-fpm libpng12-0 libfreetype6 build-essential make automake autoconf git --no-install-recommends -y && \
-    apt-get install php-pear -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp && \
     wget http://xdebug.org/files/xdebug-${XDEBUG_VERSION}.tgz && \
@@ -27,21 +32,6 @@ RUN cd /tmp && \
     echo "xdebug.remote_enable=1" | tee --append  /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
     echo "xdebug.remote_autostart=1" | tee --append /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
     rm -rf /tmp/xdebug-${XDEBUG_VERSION}
-
-RUN cd /tmp && \
-    wget https://download.libsodium.org/libsodium/releases/libsodium-${LIBSODIUM_VERSION}.tar.gz && \
-    tar -xzf libsodium-${LIBSODIUM_VERSION}.tar.gz && \
-    cd libsodium-${LIBSODIUM_VERSION} && \
-    ./configure && make install && \
-    cd /tmp && \
-    git clone https://github.com/jedisct1/libsodium-php -b ${SODIUM_EXT_VERSION} && \
-    cd libsodium-php && \
-    phpize && \
-    ./configure && make install && \
-    echo "extension=sodium.so" | tee --append /etc/php/${PHP_VERSION}/conf.d/sodium.ini && \
-    rm -rf /tmp/libsodium-php && \
-    rm -rf /tmp/libsodium-${LIBSODIUM_VERSION} && \
-    rm -rf /tmp/libsodium-${LIBSODIUM_VERSION}.tar.gz
 
 RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     mkdir -p /root/.bin && \
@@ -56,12 +46,13 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
     COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer self-update
 
-RUN for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done;
-
 RUN apt-get remove build-essential make automake autoconf --purge -y && \
     apt-get autoremove -y
 
 RUN rm -rf /tmp/*
+
+# Ensure pdo_mysql is installed
+RUN grep -qF "extension=pdo_mysql.so" "/etc/php/${PHP_VERSION}/conf.d/mysql.ini" || echo "extension=pdo_mysql.so" >> "/etc/php/${PHP_VERSION}/conf.d/mysql.ini"
 
 # Define mountable directories.
 VOLUME ["/etc/php/7.1/", "/var/www"]

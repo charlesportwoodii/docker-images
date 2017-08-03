@@ -52,9 +52,9 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     php -r "unlink('composer-setup.php');" && \
     chmod a+x /root/.bin/composer && \
     chown -R root:root /root/.bin/composer && \
-    /root/.bin/composer global require hirak/prestissimo && \
-    /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
-    /root/.bin/composer self-update
+    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer global require hirak/prestissimo && \
+    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
+    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer self-update
 
 RUN for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/7.1/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done;
 
@@ -71,4 +71,4 @@ WORKDIR /etc/php/7.0
 
 EXPOSE 9070
 
-ENTRYPOINT ["/usr/sbin/php-fpm7.0", "--fpm-config", "/etc/php/7.0/php-fpm.conf"]
+ENTRYPOINT ["/usr/sbin/php-fpm7.0", "-R", "--fpm-config", "/etc/php/7.0/php-fpm.conf"]
