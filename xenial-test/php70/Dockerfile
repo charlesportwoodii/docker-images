@@ -8,7 +8,7 @@ ENV PHP_VERSION 7.0
 RUN sh -c 'echo "deb https://deb.erianna.com xenial-test test" > /etc/apt/sources.list.d/deb.erianna.com.list' && \
     apt-get update && \
     apt-get install libxslt1-dev libpng12-0 libfreetype6 build-essential make automake autoconf git php7.0-fpm --no-install-recommends -y && \
-    apt-get install php7.0-sodium php7.0-argon2 php7.0-bz2 php7.0-enchant php7.0-gd php7.0-gmp php7.0-intl php7.0-mysql php7.0-ldap php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-recode php7.0-redis php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-zip --no-install-recommends -y && \
+    apt-get install php7.0-sodium php7.0-argon2 php7.0-bz2 php7.0-enchant php7.0-gd php7.0-gmp php7.0-intl php7.0-mysql php7.0-ldap php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-recode php7.0-redis php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-zip php7.0-opcache php7.0-sodium --no-install-recommends -y && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
     for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \

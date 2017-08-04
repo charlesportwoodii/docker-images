@@ -7,7 +7,7 @@ ENV PHP_VERSION 7.2
 RUN sh -c 'echo "deb https://deb.erianna.com xenial-test test" > /etc/apt/sources.list.d/deb.erianna.com.list' && \
     apt-get update && \
     apt-get install libxslt1-dev libpng12-0 libfreetype6 build-essential make automake autoconf git php7.2-fpm --no-install-recommends -y && \
-    apt-get install php7.2-argon2 php7.2-bz2 php7.2-enchant php7.2-gd php7.2-gmp php7.2-intl php7.2-mysql php7.2-ldap php7.2-mbstring php7.2-mysql php7.2-recode php7.2-redis php7.2-sqlite3 php7.2-xml php7.2-xsl php7.2-zip --no-install-recommends -y && \
+    apt-get install php7.2-argon2 php7.2-bz2 php7.2-enchant php7.2-gd php7.2-gmp php7.2-intl php7.2-mysql php7.2-ldap php7.2-mbstring php7.2-mysql php7.2-recode php7.2-redis php7.2-sqlite3 php7.2-xml php7.2-xsl php7.2-zip php7.2-opcache php7.2-sodium --no-install-recommends -y && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
     for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \
