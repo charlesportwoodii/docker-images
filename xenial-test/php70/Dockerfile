@@ -5,6 +5,9 @@ MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
 ENV XDEBUG_VERSION 2.5.5
 ENV PHP_VERSION 7.0
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_NO_INTERACTION 1
+
 RUN sh -c 'echo "deb https://deb.erianna.com xenial-test test" > /etc/apt/sources.list.d/deb.erianna.com.list' && \
     apt-get update && \
     apt-get install libxslt1-dev libpng12-0 libfreetype6 build-essential make automake autoconf git php7.0-fpm --no-install-recommends -y && \
@@ -42,9 +45,9 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     php -r "unlink('composer-setup.php');" && \
     chmod a+x /root/.bin/composer && \
     chown -R root:root /root/.bin/composer && \
-    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer global require hirak/prestissimo && \
-    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
-    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer self-update
+    /root/.bin/composer global require hirak/prestissimo && \
+    /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
+    /root/.bin/composer self-update
 
 RUN apt-get remove build-essential make automake autoconf --purge -y && \
     apt-get autoremove -y

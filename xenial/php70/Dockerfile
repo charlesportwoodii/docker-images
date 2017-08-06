@@ -7,6 +7,9 @@ ENV LIBSODIUM_VERSION 1.0.13
 ENV SODIUM_EXT_VERSION 2.0.4
 ENV PHP_VERSION 7.0
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_NO_INTERACTION 1
+
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
 
@@ -52,9 +55,9 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     php -r "unlink('composer-setup.php');" && \
     chmod a+x /root/.bin/composer && \
     chown -R root:root /root/.bin/composer && \
-    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer global require hirak/prestissimo && \
-    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
-    COMPOSER_ALLOW_SUPERUSER=1 /root/.bin/composer self-update
+    /root/.bin/composer global require hirak/prestissimo && \
+    /root/.bin/composer global require "fxp/composer-asset-plugin:^1.3.1" && \
+    /root/.bin/composer self-update
 
 RUN for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/7.1/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done;
 
