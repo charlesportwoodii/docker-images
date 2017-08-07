@@ -29,7 +29,7 @@ RUN cd /tmp && \
     echo "zend_extension=xdebug.so" | tee /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
     echo "xdebug.remote_enable=1" | tee --append  /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
     echo "xdebug.remote_autostart=1" | tee --append /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
-    rm -rf /tmp/xdebug-${XDEBUG_VERSION}
+    rm -rf /tmp/xdebug-*
 
 RUN cd /tmp && \
     wget https://download.libsodium.org/libsodium/releases/libsodium-${LIBSODIUM_VERSION}.tar.gz && \
@@ -42,9 +42,7 @@ RUN cd /tmp && \
     phpize && \
     ./configure && make install && \
     echo "extension=sodium.so" | tee --append /etc/php/${PHP_VERSION}/conf.d/sodium.ini && \
-    rm -rf /tmp/libsodium-php && \
-    rm -rf /tmp/libsodium-${LIBSODIUM_VERSION} && \
-    rm -rf /tmp/libsodium-${LIBSODIUM_VERSION}.tar.gz
+    rm -rf /tmp/libsodium-*
 
 RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     mkdir -p /root/.bin && \
@@ -63,8 +61,6 @@ RUN for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/7.1
 
 RUN apt-get remove build-essential make automake autoconf --purge -y && \
     apt-get autoremove -y
-
-RUN rm -rf /tmp/*
 
 # Define mountable directories.
 VOLUME ["/etc/php/7.0/", "/var/www"]
