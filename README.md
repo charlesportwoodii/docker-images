@@ -28,16 +28,6 @@ See the [EXAMPLES.md](EXAMPLES.md) directory for `docker-compose.yml` examples f
 
 In addition to the `base` and `build` images, the following extra images are provided to showcase the packages that are built on TravisCI.
 
-### Disque
-
-Disque is a distributed job server (see https://github.com/antirez/disque).
-
-The following command will start a disque server running on the OS of your choice on the selected port:
-
-```bash
-docker run -p <port>:7711 charlesportwoodii/<xenial|centos7|rhel7>:disque
-```
-
 ### Nginx Mainline
 
 NGINX is a free, open-source, high-performance HTTP server and reverse proxy (https://www.nginx.com/).
@@ -60,7 +50,7 @@ docker run  -p <port1>:80 \
             -v <includes_dir>:/etc/nginx/conf/includes \
             -v <ssl_dir>:/etc/nginx/conf/ssl \
             -v <webroot>:/var/www \
-            charlesportwoodii/<xenial|centos7|rhel7>:nginx
+            charlesportwoodii/<xenial>:nginx
 ```
 
 By default, `/var/log/nginx/error.log` and `/var/log/nginx/access.log` is redirected to `/dev/stdout`.
@@ -97,7 +87,7 @@ As I bundle PHP packages for multiple versions, please see the relevant sections
 ```bash
 docker run  -p <port>:90(70|71)
             -v <php_working_dir>:/etc/php/(70|71)
-            charlesportwoodii/<xenial|centos7|rhel7>:php(70|71)
+            charlesportwoodii/<xenial>:php(70|71)
 ```
 
 By default FPM is listening on 90(70|71), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.

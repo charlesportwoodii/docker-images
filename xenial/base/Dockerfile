@@ -5,7 +5,7 @@ MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
 # Add our deb repository
 RUN apt-get update && \
     apt-get install wget apt-transport-https curl -y && \
-    sh -c 'echo "deb https://deb.erianna.com xenial main" > /etc/apt/sources.list.d/deb.erianna.com.list' && \
+    sh -c 'echo "deb https://apt.erianna.com/xenial/ xenial main" > /etc/apt/sources.list.d/apt.erianna.com.list' && \
     apt-get --allow-unauthenticated update && \
     apt-get --allow-unauthenticated install gnupg2 gnutls3 -y && \
     ldconfig && \
