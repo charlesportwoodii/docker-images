@@ -10,7 +10,7 @@ ENV COMPOSER_NO_INTERACTION 1
 
 RUN apt-get update && \
     apt-get install libxslt1-dev libpng12-0 libfreetype6 build-essential make automake autoconf git php7.1-fpm --no-install-recommends -y && \
-    apt-get install php7.1-argon2 php7.1-bz2 php7.1-enchant php7.1-gd php7.1-gmp php7.1-intl php7.1-mysql php7.1-ldap php7.1-mbstring php7.1-mcrypt php7.1-mysql php7.1-recode php7.1-redis php7.1-sqlite3 php7.1-xml php7.1-xsl php7.1-zip php7.1-opcache php7.1-sodium --no-install-recommends -y && \
+    apt-get install php7.1-soap php7.1-argon2 php7.1-bz2 php7.1-enchant php7.1-gd php7.1-gmp php7.1-intl php7.1-mysql php7.1-ldap php7.1-mbstring php7.1-mcrypt php7.1-mysql php7.1-recode php7.1-redis php7.1-sqlite3 php7.1-xml php7.1-xsl php7.1-zip php7.1-opcache php7.1-sodium --no-install-recommends -y && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
     for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \
