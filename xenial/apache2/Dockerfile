@@ -22,6 +22,9 @@ RUN apt-get update && \
     a2enmod ssl && \
     a2enmod headers && \
     a2enmod proxy_fcgi && \
+    a2enmod proxy_http && \
+    a2enmod proxy_ajp && \
+    a2enmod proxy_wstunnel && \
     apt-get purge -y --auto-remove && \
     rm -rf /var/lib/apt/lists/*
     
