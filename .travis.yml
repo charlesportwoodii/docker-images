@@ -47,5 +47,5 @@ after_script:
 
 script:
   - docker build -f $OS/$IMAGE/Dockerfile -t $REPO:$IMAGE --compress --squash .
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS --password-stdin=true
   - docker push $REPO
