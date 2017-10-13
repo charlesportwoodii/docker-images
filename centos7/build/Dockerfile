@@ -16,4 +16,4 @@ RUN yum group install "Development Tools" -y && \
     yum clean all
     
 # Install FPM
-RUN gem install fpm
+RUN gem install fpm --no-rdoc --no-ri 

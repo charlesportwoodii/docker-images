@@ -32,4 +32,4 @@ RUN curl -qs http://launchpadlibrarian.net/140087283/libbison-dev_2.7.1.dfsg-1_a
 
 # Install FPM
 RUN curl -qs https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/index.rubygems.org/GlobalSignRootCA.pem > $(ruby -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE') && \
-    gem install fpm
+    gem install fpm --no-rdoc --no-ri 
