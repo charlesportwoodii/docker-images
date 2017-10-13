@@ -1,5 +1,5 @@
 FROM registry.access.redhat.com/rhel7
-MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
+LABEL maintaner="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 # Install EPEL
 RUN curl -O https://download-ib01.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \

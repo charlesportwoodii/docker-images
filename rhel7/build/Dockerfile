@@ -1,5 +1,5 @@
 FROM charlesportwoodii/rhel7:base
-MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
+LABEL maintaner="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 COPY ./.secrets /
 RUN source /.secrets \

@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 ENV DEBIAN_FRONTEND noninteractive
-MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
+LABEL maintaner="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 # Install pre-dependencies
 RUN apt-get update && apt-get install wget apt-transport-https curl -y

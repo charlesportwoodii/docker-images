@@ -1,6 +1,6 @@
 FROM charlesportwoodii/xenial:base
 ENV DEBIAN_FRONTEND noninteractive
-MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
+LABEL maintaner="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 RUN echo "deb http://ppa.launchpad.net/ondrej/apache2/ubuntu xenial main" | tee --append /etc/apt/sources.list.d/ondrej-apache2.list && \
     echo "deb-src http://ppa.launchpad.net/ondrej/apache2/ubuntu xenial main" | tee --append /etc/apt/sources.list.d/ondrej-apache2.list && \

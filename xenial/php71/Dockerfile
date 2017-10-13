@@ -1,6 +1,6 @@
 FROM charlesportwoodii/xenial:base
 ENV DEBIAN_FRONTEND noninteractive
-MAINTAINER Charles R. Portwood II <charlesportwoodii@erianna.com>
+LABEL maintaner="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 ENV XDEBUG_VERSION 2.5.5
 ENV PHP_VERSION 7.1
