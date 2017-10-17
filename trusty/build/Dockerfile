@@ -1,6 +1,6 @@
 FROM charlesportwoodii/trusty:base
 ENV DEBIAN_FRONTEND noninteractive
-LABEL maintaner="Charles R. Portwood II <charlesportwoodii@erianna.com>"
+LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 # Install Postgresql
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \

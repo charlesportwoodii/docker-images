@@ -1,5 +1,5 @@
 FROM charlesportwoodii/centos7:base
-LABEL maintaner="Charles R. Portwood II <charlesportwoodii@erianna.com>"
+LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 # Install Postgresql
 RUN curl -O https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm && \

@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND noninteractive
-LABEL maintaner="Charles R. Portwood II <charlesportwoodii@erianna.com>"
+LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 # Add our deb repository
 RUN apt-get update && \
