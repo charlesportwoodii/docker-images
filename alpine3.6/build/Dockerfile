@@ -4,7 +4,7 @@ LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 ENV BUNDLE_SILENCE_ROOT_WARNING=true
 
 RUN apk update && \
-    apk add --no-cache autoconf bison re2c apache2-dev libxml2-dev libxslt-dev libzip-dev bzip2-dev zlib-dev aspell-dev enchant-dev expat-dev pcre-dev curl-dev gmp-dev icu-dev imap-dev libical-dev net-snmp-dev db-dev krb5-dev gdbm-dev sqlite-dev freetds-dev mariadb-dev postgresql-dev unixodbc-dev freetype-dev tidyhtml-dev libxpm-dev libpng-dev libwebp-dev libjpeg-turbo-dev libmcrypt-dev gsoap-dev recode-dev readline-dev paxmark gettext-dev bash bash-doc bash-completion util-linux pciutils usbutils coreutils binutils findutils grep make automake m4 curl wget perl alpine-sdk build-base git ruby ruby-dev libtool geoip geoip-dev openldap-dev gmp-dev cmake openrc arch
+    apk add --no-cache autoconf bison re2c apache2-dev libxml2-dev libxslt-dev libzip-dev bzip2-dev zlib-dev aspell-dev enchant-dev expat-dev pcre-dev curl-dev gmp-dev icu-dev imap-dev libical-dev net-snmp-dev db-dev krb5-dev gdbm-dev sqlite-dev freetds-dev mariadb-dev postgresql-dev unixodbc-dev freetype-dev tidyhtml-dev libxpm-dev libpng-dev libwebp-dev libjpeg-turbo-dev libmcrypt-dev gsoap-dev recode-dev readline-dev paxmark gettext-dev bash bash-doc bash-completion util-linux pciutils usbutils coreutils binutils findutils grep make automake m4 curl wget perl alpine-sdk build-base git ruby ruby-dev libtool geoip geoip-dev openldap-dev gmp-dev cmake openrc
 
 RUN mkdir -p /usr/lib64 && \
     ln -sf /usr/lib/libldap.so /usr/lib64/libldap.so && \
