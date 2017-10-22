@@ -15,6 +15,7 @@ env:
     - OS=centos7 IMAGE=build
     - OS=rhel7 IMAGE=base
     - OS=rhel7 IMAGE=build
+    - OS=alpine3.6 IMAGE=base
     - OS=alpine3.6 IMAGE=build
 
   global:
