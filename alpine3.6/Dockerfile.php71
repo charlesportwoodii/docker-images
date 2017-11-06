@@ -59,7 +59,7 @@ VOLUME ["/etc/php/7.1/", "/var/www"]
 # Define working directory.
 WORKDIR /etc/php/7.1
 
-EXPOSE 9070
+EXPOSE 9071
 
 ENTRYPOINT ["/usr/sbin/php-fpm7.1", "-R", "--fpm-config", "/etc/php/7.1/php-fpm.conf"]
 
