@@ -10,22 +10,19 @@ A simple Nginx + PHP FPM environment listening on port 80 and 443. Note that a `
 version: "3.3"
 services:
   nginx:
-    image: charlesportwoodii/xenial:nginx
+    image: charlesportwoodii/nginx:mainline
     ports:
       - "80:80"
       - "443:443"
     links:
       - php:php
     volumes:
-      - ./:/var/www
-      - ./config/.docker/nginx/conf.d:/etc/nginx/conf/conf.d
+      - ${PWD-.}:/var/www
+      - ${PWD-.}/config/.docker/nginx/conf.d:/etc/nginx/conf/conf.d
   php:
-    image: charlesportwoodii/xenial:php71
-    ports:
-      - "9071:9071"
-      - "9000:9000"
+    image: charlesportwoodii/php:7.1
     volumes:
-      - ./:/var/www
+      - ${PWD-.}:/var/www
 ```
 
 ## Apache + PHP
@@ -45,51 +42,43 @@ services:
     links:
       - php:php
     volumes:
-      - ./:/var/www
-      - ./config/.docker/httpd:/etc/apache2/sites-enabled
-      - ./config/.docker/certs:/etc/apache2/conf/certs
+      - ${PWD-.}:/var/www
+      - ${PWD-.}/config/.docker/httpd:/etc/apache2/sites-enabled
+      - ${PWD-.}/config/.docker/certs:/etc/apache2/conf/certs
   php:
-    image: charlesportwoodii/xenial:php71
-    ports:
-      - "9071:9071"
-      - "9000:9000"
+    image: charlesportwoodii/php:7.1
     volumes:
-      - ./:/var/www
+      - ${PWD-.}:/var/www
 ```
 
-### Complex Nginx, PHP 7.1, Redis, MariaDB, Disque, Mailhog server
+### Complex Nginx, PHP 7.1, Redis, MariaDB, Mailhog server
 
-The following example is a more verbose LEMP environment with Nginx, PHP 7.1, Redis, MariaDB (MySQL), Disque, and Mailhog.
+The following example is a more verbose LEMP environment with Nginx, PHP 7.1, Redis, MariaDB (MySQL), and Mailhog.
 
 ```yaml
 version: "3.3"
 services:
   nginx:
-    image: charlesportwoodii/xenial:nginx
+    image: charlesportwoodii/nginx:mainline
     ports:
       - "80:80"
       - "443:443"
     links:
       - php:php
     volumes:
-      - ./:/var/www
-      - ./config/.docker/nginx/conf.d:/etc/nginx/conf/conf.d
+      - ${PWD-.}:/var/www
+      - ${PWD-.}/config/.docker/nginx/conf.d:/etc/nginx/conf/conf.d
   php:
-    image: charlesportwoodii/xenial:php71
-    ports:
-      - "9071:9071"
-      - "9000:9000"
+    image: charlesportwoodii/php:7.1
     links:
       - redis:redis
       - mailhog:mailhog
       - mariadb:mariadb
       - disque:disque
     volumes:
-      - ./:/var/www
+      - ${PWD-.}:/var/www
   redis:
     image: redis
-    ports:
-      - "6379:6379"
   mailhog: 
     image: mailhog/mailhog
     ports:
@@ -105,8 +94,4 @@ services:
       - MYSQL_DATABASE=root
       - MYSQL_USER=local
       - MYSQL_PASSWORD=local
-  disque:
-    image: charlesportwoodii/xenial:disque
-    ports:
-      - "7711:7711"
 ```
