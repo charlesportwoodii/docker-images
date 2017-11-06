@@ -13,6 +13,7 @@ The purpose of these boxes is primarily to ensure compatability with the OS pack
 
 A full list of images that TravisCI builds is listed below. The created images will always be available on [DockerHub](https://hub.docker.com/r/charlesportwoodii/docker-images/tags/)
 
+- Alpine Linux 3.6
 - Ubuntu 14.04 (trusty)
 - Ubuntu 16.04 (xenial)
 - CentOS 7
