@@ -72,7 +72,7 @@ A default server is created on port 80, however you should mount your own custom
 ```bash
 docker run  -p <port1>:80 \
             -p <port2>:443 \
-            -v <conf.d_dir>://etc/apache2/sites-enabled \
+            -v <conf.d_dir>:/etc/apache2/sites-enabled \
             -v <ssl_dir>:/etc/apache2/conf/certsl \
             -v <webroot>:/var/www \
             charlesportwoodii/<xenial>:nginx
@@ -85,14 +85,14 @@ PHP is a popular general-purpose scripting language that is especially suited to
 As I bundle PHP packages for multiple versions, please see the relevant sections below for more information. In general you can start a PHP docker image by running:
 
 ```bash
-docker run  -p <port>:90(70|71)
-            -v <php_working_dir>:/etc/php/(70|71)
-            charlesportwoodii/<xenial>:php(70|71)
+docker run  -p <port>:90(70|71|72)
+            -v <php_working_dir>:/etc/php/(7.0|7.1|7.2)
+            charlesportwoodii/php:(7.0|7.1|7.2)
 ```
 
-By default FPM is listening on 90(70|71), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.
+By default FPM is listening on 90(70|71|72), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.
 
-Additionally, the entirety of `/etc/php(70|71)` is available for mounting. If you have your own custom configuration you would like to load you may do so. In general the folder structure PHP FPM expects is listed below:
+Additionally, the entirety of `/etc/php(7.0|7.1|7.2)` is available for mounting. If you have your own custom configuration you would like to load you may do so. In general the folder structure PHP FPM expects is listed below:
 
 ```bash
 # Directories
@@ -105,13 +105,7 @@ Additionally, the entirety of `/etc/php(70|71)` is available for mounting. If yo
 ./php.ini # Your PHP ini file
 ```
 
-#### 7.1
-
-> 7.1 images are only available for `xenial`, `centos7`, and `rhel7`. `trusty` images are not provided.
-
-#### 7.0
-
-> 7.0 images are only available for `xenial`, `centos7`, and `rhel7`. `trusty` images are not provided.
+> Note that packages are provided for `Alpine` and `Xenial`.
 
 
 
