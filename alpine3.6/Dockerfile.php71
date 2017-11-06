@@ -19,7 +19,9 @@ RUN apk update && \
     rm -rf /var/cache/apk/* && \
     ln -s /usr/bin/phpize${PHP_VERSION} /usr/bin/phpize && \
     ln -s /usr/bin/php-config${PHP_VERSION} /usr/bin/php-config && \
-    ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
+    ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php && \
+    strip --strip-all /usr/bin/php && \
+    strip --strip-all /usr/sbin/php-fpm7.2
 
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
@@ -47,7 +49,7 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     /root/.bin/composer global require hirak/prestissimo && \
     /root/.bin/composer self-update
 
-RUN apk del alpine-sdk make automake gcc autoconf && \
+RUN apk del alpine-sdk make automake gcc autoconf binutils && \
     rm -rf /var/cache/apk/*
 
 # Ensure pdo_mysql is installed

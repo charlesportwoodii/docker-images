@@ -13,14 +13,16 @@ ENV COMPOSER_HASH 544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd5864
 
 RUN sh -c 'echo "https://apk.erianna.com/v3.6/test" | tee -a /etc/apk/repositories' && \
     apk update && \
-    apk add git ca-certificates openssl alpine-sdk make automake gcc autoconf php7.2-common php7.2-fpm php7.2-argon2 php7.2-bz2  php7.2-dev php7.2-enchant php7.2-gd php7.2-gmp php7.2-intl php7.2-ldap php7.2-mbstring php7.2-mcrypt php7.2-mysql php7.2-opcache php7.2-pgsql php7.2-pspell php7.2-recode php7.2-redis php7.2-soap php7.2-sodium php7.2-sqlite3 php7.2-xml php7.2-xsl php7.2-zip && \
+    apk add git binutils ca-certificates openssl alpine-sdk make automake gcc autoconf php7.2-common php7.2-fpm php7.2-argon2 php7.2-bz2  php7.2-dev php7.2-enchant php7.2-gd php7.2-gmp php7.2-intl php7.2-ldap php7.2-mbstring php7.2-mysql php7.2-opcache php7.2-pgsql php7.2-pspell php7.2-recode php7.2-redis php7.2-soap php7.2-sodium php7.2-sqlite3 php7.2-xml php7.2-xsl php7.2-zip && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
     for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \
     rm -rf /var/cache/apk/* && \
     ln -s /usr/bin/phpize${PHP_VERSION} /usr/bin/phpize && \
     ln -s /usr/bin/php-config${PHP_VERSION} /usr/bin/php-config && \
-    ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
+    ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php && \
+    strip --strip-all /usr/bin/php && \
+    strip --strip-all /usr/sbin/php-fpm7.2
 
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
@@ -37,7 +39,7 @@ RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     /root/.bin/composer global require hirak/prestissimo && \
     /root/.bin/composer self-update
 
-RUN apk del alpine-sdk make automake gcc autoconf && \
+RUN apk del alpine-sdk make automake gcc autoconf binutils && \
     rm -rf /var/cache/apk/*
 
 # Ensure pdo_mysql is installed
