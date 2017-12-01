@@ -11,8 +11,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_NO_INTERACTION 1
 ENV COMPOSER_HASH 544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061
 
-RUN sh -c 'echo "https://apk.erianna.com/v3.6/test" | tee -a /etc/apk/repositories' && \
-    apk update && \
+RUN apk update && \
     apk add git binutils ca-certificates openssl alpine-sdk make automake gcc autoconf php7.2-common php7.2-fpm php7.2-argon2 php7.2-bz2  php7.2-dev php7.2-enchant php7.2-gd php7.2-gmp php7.2-intl php7.2-ldap php7.2-mbstring php7.2-mysql php7.2-opcache php7.2-pgsql php7.2-pspell php7.2-recode php7.2-redis php7.2-soap php7.2-sodium php7.2-sqlite3 php7.2-xml php7.2-xsl php7.2-zip && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
