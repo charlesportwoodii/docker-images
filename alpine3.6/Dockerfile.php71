@@ -21,7 +21,7 @@ RUN apk update && \
     ln -s /usr/bin/php-config${PHP_VERSION} /usr/bin/php-config && \
     ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php && \
     strip --strip-all /usr/bin/php && \
-    strip --strip-all /usr/sbin/php-fpm7.2
+    strip --strip-all /usr/sbin/php-fpm7.1
 
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
