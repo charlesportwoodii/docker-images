@@ -42,6 +42,7 @@ before_install:
 
 before_script:
   - docker version
+  - export IMAGE_NAME="charlesportwoodii/$OS:$VERSION-$IMAGE"
   - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
   - echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
 
@@ -49,6 +50,6 @@ after_script:
   - rm .secrets
 
 script:
-  - docker build -f $OS/$VERSION/Dockerfile.$IMAGE -t charlesportwoodii/$OS:$VERSION-$IMAGE --compress --squash .
+  - docker build -f $OS/$VERSION/Dockerfile.$IMAGE -t $IMAGE_NAME --compress --squash .
   - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin 
-  - docker push charlesportwoodii/$OS:$VERSION-$IMAGE
+  - docker push $IMAGE_NAME
