@@ -7,16 +7,18 @@ matrix:
 
 env:
   matrix:
-    - OS=trusty IMAGE=base
-    - OS=trusty IMAGE=build
-    - OS=xenial IMAGE=base
-    - OS=xenial IMAGE=build
-    - OS=centos7 IMAGE=base
-    - OS=centos7 IMAGE=build
-    - OS=rhel7 IMAGE=base
-    - OS=rhel7 IMAGE=build
-    - OS=alpine3.6 IMAGE=base
-    - OS=alpine3.6 IMAGE=build
+    - OS=ubuntu IMAGE=base VERISON=14.04
+    - OS=trusty IMAGE=build VERISON=14.04
+    - OS=ubuntu IMAGE=base VERISON=16.04
+    - OS=trusty IMAGE=build VERISON=16.04
+    - OS=centos IMAGE=base VERSION=7
+    - OS=centos IMAGE=build VERSION=7
+    - OS=rhel IMAGE=base VERSION=7
+    - OS=rhel IMAGE=build VERSION=7
+    - OS=alpine IMAGE=base VERSION=3.6
+    - OS=alpine IMAGE=build VERSION=3.6
+    - OS=alpine IMAGE=base VERSION=3.7
+    - OS=alpine IMAGE=build VERSION=3.7
 
   global:
   # Docker Email
@@ -40,7 +42,6 @@ before_install:
 
 before_script:
   - docker version
-  - export REPO=charlesportwoodii/$OS
   - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
   - echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
 
@@ -48,6 +49,6 @@ after_script:
   - rm .secrets
 
 script:
-  - docker build -f $OS/Dockerfile.$IMAGE -t $REPO:$IMAGE --compress --squash .
+  - docker build -f $OS/$VERSION/Dockerfile.$IMAGE -t charlesportwoodii/$OS:$VERSION-$IMAGE --compress --squash .
   - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin 
-  - docker push $REPO
+  - docker push charlesportwoodii/$OS:$VERSION-$IMAGE
