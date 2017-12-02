@@ -51,6 +51,6 @@ after_script:
   - rm .secrets
 
 script:
-  - docker build -f $OS/$VERSION/Dockerfile.$IMAGE -t $IMAGE_NAME --compress --squash .
+  - docker build -f $OS/$RELEASE_VERSION/Dockerfile.$IMAGE -t $IMAGE_NAME --compress --squash .
   - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin 
   - docker push $IMAGE_NAME
