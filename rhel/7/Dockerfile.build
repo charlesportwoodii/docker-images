@@ -1,4 +1,4 @@
-FROM charlesportwoodii/rhel7:base
+FROM charlesportwoodii/rhel:7-base
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 COPY ./.secrets /

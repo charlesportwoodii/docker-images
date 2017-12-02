@@ -1,4 +1,4 @@
-FROM charlesportwoodii/trusty:base
+FROM charlesportwoodii/ubuntu:14.04-base
 ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 

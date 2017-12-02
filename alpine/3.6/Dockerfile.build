@@ -1,4 +1,4 @@
-FROM charlesportwoodii/alpine3.6:base
+FROM charlesportwoodii/alpine:3.6-base
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 ENV BUNDLE_SILENCE_ROOT_WARNING=true
