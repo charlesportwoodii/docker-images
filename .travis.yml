@@ -7,18 +7,18 @@ matrix:
 
 env:
   matrix:
-    - OS=ubuntu IMAGE=base VERISON=14.04
-    - OS=trusty IMAGE=build VERISON=14.04
-    - OS=ubuntu IMAGE=base VERISON=16.04
-    - OS=trusty IMAGE=build VERISON=16.04
-    - OS=centos IMAGE=base VERSION=7
-    - OS=centos IMAGE=build VERSION=7
-    - OS=rhel IMAGE=base VERSION=7
-    - OS=rhel IMAGE=build VERSION=7
-    - OS=alpine IMAGE=base VERSION=3.6
-    - OS=alpine IMAGE=build VERSION=3.6
-    - OS=alpine IMAGE=base VERSION=3.7
-    - OS=alpine IMAGE=build VERSION=3.7
+    - OS=ubuntu IMAGE=base RELEASE_VERSION=14.04
+    - OS=ubuntu IMAGE=build RELEASE_VERSION=14.04
+    - OS=ubuntu IMAGE=base RELEASE_VERSION=16.04
+    - OS=ubuntu IMAGE=build RELEASE_VERSION=16.04
+    - OS=centos IMAGE=base RELEASE_VERSION=7
+    - OS=centos IMAGE=build RELEASE_VERSION=7
+    - OS=rhel IMAGE=base RELEASE_VERSION=7
+    - OS=rhel IMAGE=build RELEASE_VERSION=7
+    - OS=alpine IMAGE=base RELEASE_VERSION=3.6
+    - OS=alpine IMAGE=build RELEASE_VERSION=3.6
+    - OS=alpine IMAGE=base RELEASE_VERSION=3.7
+    - OS=alpine IMAGE=build RELEASE_VERSION=3.7
 
   global:
   # Docker Email
@@ -42,7 +42,8 @@ before_install:
 
 before_script:
   - docker version
-  - export IMAGE_NAME="charlesportwoodii/$OS:$VERSION-$IMAGE"
+  - export IMAGE_NAME="charlesportwoodii/$OS:$RELEASE_VERSION-$IMAGE"
+  - echo $IMAGE_NAME
   - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
   - echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
 
