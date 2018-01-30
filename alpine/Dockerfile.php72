@@ -4,7 +4,7 @@ LABEL repository="https://github.com/charlesportwoodii/php-fpm-build"
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 LABEL description="An PHP 7.2 Docker image with XDebug, Composer, Libsodium, Argon2, and other common extensions pre-installed"
 
-ENV XDEBUG_VERSION 2.5.5
+ENV XDEBUG_VERSION 2.6.0
 ENV PHP_VERSION 7.2
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -25,6 +25,17 @@ RUN apk update && \
 
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
+
+RUN cd /tmp && \
+    wget http://xdebug.org/files/xdebug-${XDEBUG_VERSION}.tgz && \
+    tar -xf xdebug-${XDEBUG_VERSION}.tgz && \
+    cd xdebug-${XDEBUG_VERSION} && \
+    phpize && \
+    ./configure && make install && \
+    echo "zend_extension=xdebug.so" | tee /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
+    echo "xdebug.remote_enable=1" | tee -a  /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
+    echo "xdebug.remote_autostart=1" | tee -a /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
+    rm -rf /tmp/xdebug-*
 
 RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     mkdir -p /root/.bin && \
