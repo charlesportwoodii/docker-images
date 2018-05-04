@@ -1,0 +1,12 @@
+FROM ubuntu:18.04
+ENV DEBIAN_FRONTEND noninteractive
+LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
+
+# Add our deb repository
+RUN apt-get update && \
+    apt-get install gnupg2 ca-certificates wget apt-transport-https curl -y --no-install-recommends && \
+    sh -c 'echo "deb https://apt.erianna.com/bionic/ bionic main" > /etc/apt/sources.list.d/apt.erianna.com.list' && \
+    curl -qs https://www.erianna.com/key.asc | apt-key add - && \
+    apt-get clean && \
+    apt-get autoclean && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*

@@ -11,6 +11,8 @@ env:
     - OS=ubuntu IMAGE=build RELEASE_VERSION=14.04
     - OS=ubuntu IMAGE=base RELEASE_VERSION=16.04
     - OS=ubuntu IMAGE=build RELEASE_VERSION=16.04
+    - OS=ubuntu IMAGE=base RELEASE_VERSION=18.04
+    - OS=ubuntu IMAGE=build RELEASE_VERSION=18.04
     - OS=centos IMAGE=base RELEASE_VERSION=7
     - OS=centos IMAGE=build RELEASE_VERSION=7
     - OS=rhel IMAGE=base RELEASE_VERSION=7

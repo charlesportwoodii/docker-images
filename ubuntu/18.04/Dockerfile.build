@@ -1,0 +1,35 @@
+FROM charlesportwoodii/ubuntu:18.04-base
+ENV DEBIAN_FRONTEND noninteractive
+LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
+
+# Install pre-dependencies
+RUN apt-get update
+
+# Install Postgresql
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
+    curl -qs https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
+RUN mkdir -p /usr/lib64 && \
+    ln -sf /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib64/libldap.so && \
+    ln -sf /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib64/liblber.so && \
+    ln -sf /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
+
+# Install build tools
+RUN apt-get update && \
+    apt-get -q install m4 autogen apt-utils postgresql-contrib-9.6 postgresql-server-dev-9.6 make automake g++ autoconf checkinstall git build-essential libxml2-dev pkg-config libjpeg-turbo8-dev libpng-dev libfreetype6-dev libicu-dev libmcrypt4 libmcrypt-dev libreadline6-dev libtool ruby ruby-dev lsb-release libgmp-dev libunbound-dev libtasn1-6 libtasn1-6-dev zlib1g-dev libpcre3 libpcre3-dev libluajit-5.1-common luajit libgeoip-dev geoip-database libluajit-5.1-dev luajit unzip libgmp-dev libunbound-dev python2.7 python-dev lsb-release bc libxslt-dev luajit-2.0 libbrotli libbz2-dev libenchant-dev libldap2-dev libpspell-dev librecode-dev libgmp3-dev cmake -y && \
+    apt-get clean && \
+    apt-get autoclean && \
+    apt-get purge -y --auto-remove && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Bison
+RUN curl -qs http://launchpadlibrarian.net/140087283/libbison-dev_2.7.1.dfsg-1_amd64.deb -o libbison-dev_2.7.1.dfsg-1_amd64.deb && \
+    dpkg -i libbison-dev_2.7.1.dfsg-1_amd64.deb && \
+    rm libbison-dev_2.7.1.dfsg-1_amd64.deb && \
+    curl -qs http://launchpadlibrarian.net/140087282/bison_2.7.1.dfsg-1_amd64.deb -o bison_2.7.1.dfsg-1_amd64.deb && \
+    dpkg -i bison_2.7.1.dfsg-1_amd64.deb && \
+    rm bison_2.7.1.dfsg-1_amd64.deb
+
+# Install FPM
+RUN curl -qs https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/index.rubygems.org/GlobalSignRootCA.pem > $(ruby -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE') && \
+    gem install fpm --no-rdoc --no-ri 

@@ -20,38 +20,12 @@ services:
       - ${PWD-.}:/var/www
       - ${PWD-.}/config/.docker/nginx/conf.d:/etc/nginx/conf/conf.d
   php:
-    image: charlesportwoodii/php:7.1
+    image: charlesportwoodii/php:7.2
     volumes:
       - ${PWD-.}:/var/www
 ```
 
-## Apache + PHP
-
-A simple Apache2 + PHP environment listening on port 80, 443.
-
-> note that the `httpd` and `certs` directory are provided by the host, as the default image does not contain an `<VirtualHost>` block.
-
-```yaml
-version: "3.3"
-services:
-  apache2:
-    image: charlesportwoodii/xenial:apache2
-    ports:
-      - "80:80"
-      - "443:443"
-    links:
-      - php:php
-    volumes:
-      - ${PWD-.}:/var/www
-      - ${PWD-.}/config/.docker/httpd:/etc/apache2/sites-enabled
-      - ${PWD-.}/config/.docker/certs:/etc/apache2/conf/certs
-  php:
-    image: charlesportwoodii/php:7.1
-    volumes:
-      - ${PWD-.}:/var/www
-```
-
-### Complex Nginx, PHP 7.1, Redis, MariaDB, Mailhog server
+### Complex Nginx, PHP 7.2, Redis, MariaDB, Mailhog server
 
 The following example is a more verbose LEMP environment with Nginx, PHP 7.1, Redis, MariaDB (MySQL), and Mailhog.
 
@@ -69,7 +43,7 @@ services:
       - ${PWD-.}:/var/www
       - ${PWD-.}/config/.docker/nginx/conf.d:/etc/nginx/conf/conf.d
   php:
-    image: charlesportwoodii/php:7.1
+    image: charlesportwoodii/php:7.2
     links:
       - redis:redis
       - mailhog:mailhog
