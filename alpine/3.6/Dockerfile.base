@@ -1,8 +1,11 @@
 FROM alpine:3.6
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
-RUN apk add curl wget --no-cache && \
-    curl -qs https://apk.erianna.com/charlesportwoodii@erianna.com-5b3f7194.rsa.pub -o /etc/apk/keys/charlesportwoodii.erianna.com-5b3f7194.rsa.pub && \
+RUNapk add curl wget ca-certificates --no-cache && \
+    curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.pem && \
+    curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.pem && \
+    update-ca-certificates && \
+    curl -qs https://gist.githubusercontent.com/charlesportwoodii/2253f1e82b60c7334b78a012c2d2beea/raw/05c88c8bcfbac01a5e07e88d2b1970e386a86e2c/charlesportwoodii.erianna.com-5b3f7194.rsa.pub -o /etc/apk/keys/charlesportwoodii@erianna.com-5b3f7194.rsa.pub && \
     sh -c 'echo "https://apk.erianna.com/v3.6/main" | tee -a /etc/apk/repositories' && \
     apk update && \
     rm -rf /var/cache/apk/*

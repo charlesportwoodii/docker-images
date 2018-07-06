@@ -5,6 +5,9 @@ LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 # Add our deb repository
 RUN apt-get update && \
     apt-get install gnupg2 ca-certificates wget apt-transport-https curl -y --no-install-recommends && \
+    curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.crt && \
+    curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.crt && \
+    update-ca-certificates && \
     sh -c 'echo "deb https://apt.erianna.com/bionic/ bionic main" > /etc/apt/sources.list.d/apt.erianna.com.list' && \
     curl -qs https://www.erianna.com/key.asc | apt-key add - && \
     apt-get clean && \

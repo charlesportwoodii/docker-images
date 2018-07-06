@@ -3,7 +3,10 @@ ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 # Install pre-dependencies
-RUN apt-get update && apt-get install wget apt-transport-https curl -y
+RUN apt-get update && apt-get install wget apt-transport-https curl ca-certificates -y && \
+    curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.crt && \
+    curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.crt && \
+    update-ca-certificates
 
 # Add our deb repository
 # Trusty doens't support ECDSA keys via apt natively, so we have to use http instead of https for the transport

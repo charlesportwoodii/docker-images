@@ -4,7 +4,10 @@ LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 # Add our deb repository
 RUN apt-get update && \
-    apt-get install wget apt-transport-https curl -y && \
+    apt-get install wget apt-transport-https curl ca-certificates -y && \
+    curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.crt && \
+    curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.crt && \
+    update-ca-certificates && \
     sh -c 'echo "deb https://apt.erianna.com/xenial/ xenial main" > /etc/apt/sources.list.d/apt.erianna.com.list' && \
     apt-get --allow-unauthenticated update && \
     apt-get --allow-unauthenticated install gnupg2 gnutls3 -y && \
