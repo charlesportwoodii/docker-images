@@ -2,7 +2,7 @@ FROM alpine:3.6
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 RUN apk add curl wget --no-cache && \
-    curl -qs https://gist.githubusercontent.com/charlesportwoodii/2253f1e82b60c7334b78a012c2d2beea/raw/477a43a4ad16b2f3b83790e45131390f943f0691/charlesportwoodii@erianna.com-59ea3c02.rsa.pub -o /etc/apk/keys/charlesportwoodii@erianna.com-59ea3c02.rsa.pub && \
+    curl -qs https://apk.erianna.com/charlesportwoodii.erianna.com-5b3f7194.rsa.pub -o /etc/apk/keys/charlesportwoodii.erianna.com-5b3f7194.rsa.pub && \
     sh -c 'echo "https://apk.erianna.com/v3.6/main" | tee -a /etc/apk/repositories' && \
     apk update && \
     rm -rf /var/cache/apk/*
