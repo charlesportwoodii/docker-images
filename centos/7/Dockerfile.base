@@ -8,7 +8,11 @@ RUN curl -O https://download-ib01.fedoraproject.org/pub/epel/epel-release-latest
 
 # Upgrade
 RUN yum update -y && \
-    yum upgrade -y
+    yum upgrade -y && \
+    yum install curl wget ca-certificates -y && \
+    curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.pem && \
+    curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.pem && \
+    update-ca-certificates
 
 # Install Erianna RPM Repo and necessary extra packages
 RUN sh -c 'echo -e "[erianna]\nname=Erianna RPM Repository\nbaseurl=https://rpm.erianna.com/CentOS/7/x86_64\nenabled=1\ngpgcheck=0\nprotect=1\ngpgkey=https://keybase.io/charlesportwood/key.asc" > /etc/yum.repos.d/rpm.erianna.com.repo' && \

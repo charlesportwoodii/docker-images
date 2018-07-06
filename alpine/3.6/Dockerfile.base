@@ -1,7 +1,7 @@
 FROM alpine:3.6
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
-RUNapk add curl wget ca-certificates --no-cache && \
+RUN apk add curl wget ca-certificates --no-cache && \
     curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.pem && \
     curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.pem && \
     update-ca-certificates && \
