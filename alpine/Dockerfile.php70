@@ -12,7 +12,7 @@ ENV COMPOSER_NO_INTERACTION 1
 ENV COMPOSER_HASH 544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061
 
 RUN apk update && \
-    apk add git binutils ca-certificates openssl alpine-sdk make automake gcc autoconf php7.0-common php7.0-fpm php7.0-argon2 php7.0-bz2 php7.0-dev php7.0-enchant php7.0-gd php7.0-gmp php7.0-intl php7.0-ldap php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-opcache php7.0-pgsql php7.0-pspell php7.0-recode php7.0-redis php7.0-soap php7.0-sodium php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-zip && \
+    apk add git binutils ca-certificates openssl alpine-sdk make automake gcc autoconf php7.0-common php7.0-fpm php7.0-argon2 php7.0-bz2 php7.0-dev php7.0-enchant php7.0-gd php7.0-gmp php7.0-intl php7.0-ldap php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-opcache php7.0-pgsql php7.0-pspell php7.0-recode php7.0-redis php7.0-soap php7.0-sodium php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-zip php7.0-igbinary && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
     for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \
