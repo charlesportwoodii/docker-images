@@ -34,7 +34,6 @@ before_script:
   - docker version
   - export IMAGE_NAME="charlesportwoodii/$OS:$RELEASE_VERSION-$IMAGE"
   - echo $IMAGE_NAME
-  - echo $DOCKER_USER
   - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
   - echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
  
