@@ -1,48 +1,47 @@
 dist: trusty
 sudo: required
 language: generic
+
 matrix:
   fast_finish: true
+
 env:
   matrix:
-  - OS=ubuntu IMAGE=base RELEASE_VERSION=14.04
-  - OS=ubuntu IMAGE=build RELEASE_VERSION=14.04
-  - OS=ubuntu IMAGE=base RELEASE_VERSION=16.04
-  - OS=ubuntu IMAGE=build RELEASE_VERSION=16.04
-  - OS=ubuntu IMAGE=base RELEASE_VERSION=18.04
-  - OS=ubuntu IMAGE=build RELEASE_VERSION=18.04
-  - OS=centos IMAGE=base RELEASE_VERSION=7
-  - OS=centos IMAGE=build RELEASE_VERSION=7
-  - OS=rhel IMAGE=base RELEASE_VERSION=7
-  - OS=rhel IMAGE=build RELEASE_VERSION=7
-  - OS=alpine IMAGE=base RELEASE_VERSION=3.6
-  - OS=alpine IMAGE=build RELEASE_VERSION=3.6
-  - OS=alpine IMAGE=base RELEASE_VERSION=3.7
-  - OS=alpine IMAGE=build RELEASE_VERSION=3.7
-  global:
-  # Docker User
-  - secure: bSWyulXGVMFJOsMk+QSMAyROXkUBlzKJ1zICxDwmssvaZqTrtBr8GAOk9T7/zeCsg113cMzEbCebgY47CbSmZS35MtlSYcBmjOZAP1j8kt8LJkRiH12e+PMn9hgSGww9tY9EVYnO1fjVxnVIF1n9ueReiguWDfZNM6H3RCmaEynbhiDbuPDnm+9gQHOor1ub20vllad7miLcmOmZx3tV0BLAPx61F7B/2WO+HwcNOlekJmgOw2n033fCmD4Y7Oq8U9SjJovqgLh7yosgK2GXiKa4WwcfoECXztOO3qfkpT+EKgQTlJMkR/88jt/RX9gRJLz9y357VpzO7V3S/hny+Ax0DRT9HOrj2r8sYBp9D+FS/IDFunJ7k9hwXkZYfxIP4y1QKnyEolnO2CNbNa0TbIL2cDlV6toS1+t0eOxYx3ERp4qGF1trLGkJqiBkXMukfv4QFNu6VhVyiOUYs9Yd7t0QnapvhHZ2jw7eG0vo77v+jLObGf3trOBb/MKa2mmxCivJQ1bt3NDm/Tjw/Uy9A0F2Ltyx4lZCEbcDJ9GlP2wxGICVMSxf8QOwTUN0z0XDnuZ8q0vvrp75nxiZvVbeAOvKZT0rznuEtrkQTzmdjiEb6trMVQ+ZuXknUddJXN1LCDBDfEfh+zvCmxrkofe12JkMpQIe6z3jus8NaKnRvxI=
-  # Docker Pass
-  - secure: K06Z9SRgX+PrEcNloawvYYxqCWpvk1lhTCL80Dg78hqag9GeRcYsy5FF2H2WofmxgafoBi+plz0R8B0E/4ZLrS4eOWduZzimmNBuzJ8rcvyt5JlP1faO01LWA5ip/7w86A994uU+JbLlDf+datbcqH7hpklLrcOqWVNLfg1B+kF2yIKb7NP1JH77+Rh6f10nUNPPx4dpHAqEWTjKj4YFNSnB7y3kwWSAKkOJT6yO4Gz1/Bctwr24aOIE9uWK1yvxxipNYoYYB7zTN1iwutAYloxJ6hKBTK+NcsPFwgKtAywLMZAhGeShAk0nvUaEaMje3KkM95QdJC8v591u/L9ARStap2Gs4bm95ElM3R1SyT7lDHaTutueNV4sx+e7LeiaNY8nImjbYgIePTD8ybICsjwklT2YllydI9XPrOMKuL/FAWNiAnoZPpYtalAcGLpkLlMZP9sKczn6T+Vm4nBbrfs+A6nLY+U2egrChE3HggqC8+znX8QDodhr6/CqejNukNkkCR97HPXgOvt9V/57g96a9Gpd+Sz1GTlCK6IvIPk/RWVvg5iPDIpKshnHpdABkKECU/zcYMfBCZ2k3r+vGfXx/omzgVMXtFhUJs2jb3RuyW67KBaRFiOL+Ej1orX8Xuo93Qlrsw6RUcN6dc3VKkHg7dNtytBCp+w/tKCTW90=
+    - OS=ubuntu IMAGE=base RELEASE_VERSION=14.04
+    - OS=ubuntu IMAGE=build RELEASE_VERSION=14.04
+    - OS=ubuntu IMAGE=base RELEASE_VERSION=16.04
+    - OS=ubuntu IMAGE=build RELEASE_VERSION=16.04
+    - OS=ubuntu IMAGE=base RELEASE_VERSION=18.04
+    - OS=ubuntu IMAGE=build RELEASE_VERSION=18.04
+    - OS=centos IMAGE=base RELEASE_VERSION=7
+    - OS=centos IMAGE=build RELEASE_VERSION=7
+    - OS=rhel IMAGE=base RELEASE_VERSION=7
+    - OS=rhel IMAGE=build RELEASE_VERSION=7
+    - OS=alpine IMAGE=base RELEASE_VERSION=3.6
+    - OS=alpine IMAGE=build RELEASE_VERSION=3.6
+    - OS=alpine IMAGE=base RELEASE_VERSION=3.7
+    - OS=alpine IMAGE=build RELEASE_VERSION=3.7
+  
 before_install:
-- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu
-  $(lsb_release -cs) stable"
-- sudo apt-get update
-- sudo apt-get -y install docker-ce -y -qq
-- echo "DOCKER_OPTS=--experimental=true " | sudo tee --append /etc/default/docker
-- sudo service docker restart
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce -y -qq
+  - echo "DOCKER_OPTS=--experimental=true " | sudo tee --append /etc/default/docker
+  - sudo service docker restart
+
 before_script:
-- docker version
-- export IMAGE_NAME="charlesportwoodii/$OS:$RELEASE_VERSION-$IMAGE"
-- echo $IMAGE_NAME
-- echo $DOCKER_USER
-- echo "export REDHAT_USER=$REDHAT_USER" > .secrets
-- echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
+  - docker version
+  - export IMAGE_NAME="charlesportwoodii/$OS:$RELEASE_VERSION-$IMAGE"
+  - echo $IMAGE_NAME
+  - echo $DOCKER_USER
+  - echo "export REDHAT_USER=$REDHAT_USER" > .secrets
+  - echo "export REDHAT_PASS=$REDHAT_PASS" >> .secrets
+ 
 after_script:
-- rm .secrets
+  - rm .secrets
+
 script:
-- docker build -f $OS/$RELEASE_VERSION/Dockerfile.$IMAGE -t $IMAGE_NAME --compress
-  --squash .
-- echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-- docker push $IMAGE_NAME
+  - docker build -f $OS/$RELEASE_VERSION/Dockerfile.$IMAGE -t $IMAGE_NAME --compress --squash .
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+  - docker push $IMAGE_NAME
