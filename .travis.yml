@@ -56,5 +56,5 @@ after_script:
 
 script:
   - docker build -f $OS/$RELEASE_VERSION/Dockerfile.$IMAGE -t $IMAGE_NAME --compress --squash .
-  - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
   - docker push $IMAGE_NAME
