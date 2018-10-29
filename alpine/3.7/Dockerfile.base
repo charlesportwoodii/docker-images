@@ -9,4 +9,3 @@ RUN apk add curl wget ca-certificates --no-cache && \
     sh -c 'echo "https://apk.erianna.com/v3.7/main" | tee -a /etc/apk/repositories' && \
     apk update && \
     rm -rf /var/cache/apk/*
-    

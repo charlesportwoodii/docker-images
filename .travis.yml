@@ -21,6 +21,8 @@ env:
     - OS=alpine IMAGE=build RELEASE_VERSION=3.6
     - OS=alpine IMAGE=base RELEASE_VERSION=3.7
     - OS=alpine IMAGE=build RELEASE_VERSION=3.7
+    - OS=alpine IMAGE=base RELEASE_VERSION=3.8
+    - OS=alpine IMAGE=build RELEASE_VERSION=3.8
 
   global:
   # Docker Email
@@ -33,7 +35,7 @@ env:
   - secure: "FqcCLYIqLSDLqH0jtz5rubed5jRXtLLxrBru/9aXmezFpnLyus2HkvgUh85j4x8gQJ/dpgZpZ9k5/Poqw0Uwe/dcxj3kl522UHMnm2nsxXfGMxem70hFoepUmmzWBaeX7nNFx7oQMMv6uP7ude25G19TFPP8+VSWIhMXDdJoYVCp7ezu1dtDialpdcqRw7d/HbHwCmLzTpljHjNHeRCnYD7XGVSlK349PZEfzouOiu8rWvu1BlJHhRPZOrBzTbvtVJvV9LgA0emT0eOKfWgyS7pykHJ7SUK1zD9fuFF5Kjz4m0nzzumD2ogC9HD8JvD9D7gzHrJ+d8h2uYECDzAPJoVr663LImsxnBz/WfUqAruhScqq8U4Rgu+5a1eMK/Y7xz1mx+7r98SFWDhyKo08W5tNz+EunPm5dPVmj5V58tIb2crD7IBuvDfW+6NYZhGidMIrfSqnvsOft48OdFI85BmAmlJwc/bGqLa5AGKNqD3/y3qSFqdBhGSul7WLyB8P/rWXxYOx9wXLd/FKhOhsdjsd2wHZLq3V40bOCNBsU+k4+op7FpU7WP+RDufvEI1I1X3hoXVlCPGb/1vPUK8uuRntI3g/0uEB8GoGIwhf8i5HzIvWUwdtmoIjwmQEUu3Qvbt88CymDZvUDkke210TXUYBVNFZEupPnppRHqFciBA="
   # RedHat Password
   - secure: "aQevB1xHXsUE53hhR9PDqeNXN+ICnjSnXM5PjqkMqTOlIzST6IxJcfesqGyTIRbgkYnZ3wsY2ZuiJI7VhaeDO1Kr4LosGQVRAG+yu7WIT6otW1EmFJfO/5+IPfTY6I+Abs+dal7Txg4uzKXLlRPLvEp3oJLUL1FIE5TzCLhc/snsL/epOSTidvFnwfLF7NfxiyqY5MoRIM28LPg8QHzohvCHAR/SiZuwJonWzEz3StZU/gOD+bR5WRarIfGRaYiMuC9fwQQqS6DrnX4WCzJkE5A71I+HTzCQW/hEqZSVCJF7sFqJrIrRPHk2gmpbDEcW9xdZ/707DrBqS5QmfqF7149Kp2TXt29gs3CZo8EYzqKP7r3DtP1a/1NelKk9fxyRD+5ts8V8Gvj5cpiRO0Y23KudheDAlybzT1WOJihkQNJ48rGT5o0TGq2U+2oj6XOInAuz4HH/j/QUkJLNsqgFtcjRgKmxY634Q6EmuQBUAFlUVP32H7EaM6jeFj4NLeiPSAB/QkyQovjdQd+d6x93Z8IqMuuPY4jyXcDrcjYfg5ky7V4AUV3Us9yxUuFYlAG/DMnxs5l70k17P+JDFzzWg4uJpvtkM1SVssVxH9qbFUyH+4G3NsNm3bX8bn15ZnxsKj0oVW1CuZoqsAfELjxgfOX+F1cC5vp3qW3bXvvJJBo="
-  
+
 before_install:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
@@ -54,5 +56,5 @@ after_script:
 
 script:
   - docker build -f $OS/$RELEASE_VERSION/Dockerfile.$IMAGE -t $IMAGE_NAME --compress --squash .
-  - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin 
+  - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
   - docker push $IMAGE_NAME
