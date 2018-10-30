@@ -27,7 +27,7 @@ RUN apt-get update && \
     a2enmod proxy_wstunnel && \
     apt-get purge -y --auto-remove && \
     rm -rf /var/lib/apt/lists/*
-    
+
 VOLUME ["/var/www/", "/etc/apache2/sites-enabled", "/etc/apache2/conf/certs"]
 
 WORKDIR /etc/apache2

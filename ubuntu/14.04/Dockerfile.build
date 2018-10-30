@@ -28,4 +28,4 @@ RUN wget http://launchpadlibrarian.net/140087283/libbison-dev_2.7.1.dfsg-1_amd64
     rm bison_2.7.1.dfsg-1_amd64.deb
 
 # Install FPM
-RUN gem install fpm --no-rdoc --no-ri 
+RUN gem install fpm --no-rdoc --no-ri
