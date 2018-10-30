@@ -10,8 +10,4 @@ RUN apk update && \
     ln -sf /usr/lib/libldap.so /usr/lib64/libldap.so && \
     ln -sf /usr/lib/liblber.so /usr/lib64/liblber.so && \
     gem install fpm --no-rdoc --no-ri && \
-    cd / && \
-    git clone https://github.com/charlesportwoodii/fpm && \
-    cd fpm && \
-    gem install bundler --no-rdoc --no-ri && \
-    bundle install
+    gem install etc --no-rdoc --no-ri
