@@ -12,7 +12,7 @@ RUN yum update -y && \
 
 # Install base dependencies
 RUN yum group install "Development Tools" -y && \
-    yum install wget libzip-devel libzip make automake autoconf which bc geoip geoip-devel g++ build-essential glib2-devel glibc-devel git libmcrypt-devel libmcrypt gcc libtool libxml2-devel libicu-devel gcc-c++ bison libpng12-devel libjpeg-turbo readline-devel postgresql95-devel freetype-devel libjpeg-turbo-devel postgresql-devel ruby ruby-devel libpng-devel luajit-2.0 libxslt-devel bzip2-devel enchant-devel openldap-devel aspell-devel recode-devel gmp-devel cmake libgeos3.6 -y && \
+    yum install wget libzip-devel libzip make automake autoconf which bc geoip geoip-devel g++ build-essential glib2-devel glibc-devel git libmcrypt-devel libmcrypt gcc libtool libxml2-devel libicu-devel gcc-c++ bison libpng12-devel libjpeg-turbo readline-devel postgresql95-devel freetype-devel libjpeg-turbo-devel postgresql-devel ruby ruby-devel libpng-devel luajit-2.0 libxslt-devel bzip2-devel enchant-devel openldap-devel aspell-devel recode-devel gmp-devel cmake libgeos3.6 sqlite-devel -y && \
     yum clean all
 
 # Install FPM
