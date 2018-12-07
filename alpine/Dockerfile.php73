@@ -13,7 +13,7 @@ ENV COMPOSER_NO_INTERACTION 1
 ENV COMPOSER_HASH 93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8
 
 RUN apk update && \
-    apk add --no-cache git binutils ca-certificates openssl alpine-sdk make automake gcc autoconf libgeos36
+    apk add --no-cache git binutils ca-certificates openssl alpine-sdk make automake gcc autoconf libgeos36 libzip
 
 RUN apk add --no-cache php7.3-common php7.3-fpm php7.3-argon2 php7.3-bz2 php7.3-dev php7.3-enchant php7.3-gd php7.3-gmp php7.3-intl php7.3-ldap php7.3-mbstring php7.3-mysql php7.3-opcache php7.3-pgsql php7.3-pspell php7.3-recode php7.3-redis php7.3-soap php7.3-sodium php7.3-sqlite3 php7.3-xml php7.3-xsl php7.3-zip php7.3-igbinary && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
