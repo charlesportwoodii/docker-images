@@ -2,8 +2,8 @@ FROM charlesportwoodii/ubuntu:18.04-base
 ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
-ENV XDEBUG_VERSION 2.6.0
-ENV PHP_VERSION 7.0
+ENV XDEBUG_VERSION 2.7.0RC1
+ENV PHP_VERSION 7.3
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_NO_INTERACTION 1
@@ -11,7 +11,7 @@ ENV COMPOSER_HASH 544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd5864
 
 RUN apt-get update && \
     apt-get install libxslt1-dev libpng12-0 libfreetype6 build-essential make automake autoconf git --no-install-recommends -y && \
-    apt-get install php7.0-common php7.0-fpm php7.0-argon2 php7.0-bz2 php7.0-dev php7.0-enchant php7.0-gd php7.0-gmp php7.0-intl php7.0-ldap php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-opcache php7.0-pgsql php7.0-pspell php7.0-recode php7.0-redis php7.0-soap php7.0-sodium php7.0-sqlite3 php7.0-xml php7.0-xsl php7.0-zip --no-install-recommends -y && \
+    apt-get install php7.3-common php7.3-fpm php7.3-argon2 php7.3-bz2 php7.3-dev php7.3-enchant php7.3-gd php7.3-gmp php7.3-intl php7.3-ldap php7.3-mbstring php7.3-mcrypt php7.3-mysql php7.3-opcache php7.3-pgsql php7.3-pspell php7.3-recode php7.3-redis php7.3-soap php7.3-sodium php7.3-sqlite3 php7.3-xml php7.3-xsl php7.3-zip --no-install-recommends -y && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
     for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \
@@ -20,17 +20,6 @@ RUN apt-get update && \
 
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
-
-RUN cd /tmp && \
-    wget http://xdebug.org/files/xdebug-${XDEBUG_VERSION}.tgz && \
-    tar -xf xdebug-${XDEBUG_VERSION}.tgz && \
-    cd xdebug-${XDEBUG_VERSION} && \
-    phpize && \
-    ./configure && make install && \
-    echo "zend_extension=xdebug.so" | tee /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
-    echo "xdebug.remote_enable=1" | tee --append  /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
-    echo "xdebug.remote_autostart=1" | tee --append /etc/php/${PHP_VERSION}/conf.d/xdebug.ini && \
-    rm -rf /tmp/xdebug-*
 
 RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     mkdir -p /root/.bin && \
@@ -52,11 +41,11 @@ RUN apt-get remove build-essential make automake autoconf --purge -y && \
 RUN grep -qF "extension=pdo_mysql.so" "/etc/php/${PHP_VERSION}/conf.d/mysql.ini" || echo "extension=pdo_mysql.so" >> "/etc/php/${PHP_VERSION}/conf.d/mysql.ini"
 
 # Define mountable directories.
-VOLUME ["/etc/php/7.0/", "/var/www"]
+VOLUME ["/etc/php/7.3/", "/var/www"]
 
 # Define working directory.
-WORKDIR /etc/php/7.0
+WORKDIR /etc/php/7.3
 
-EXPOSE 9070
+EXPOSE 9073
 
-ENTRYPOINT ["/usr/sbin/php-fpm7.0", "-R", "--fpm-config", "/etc/php/7.0/php-fpm.conf"]
+ENTRYPOINT ["/usr/sbin/php-fpm7.3", "-R", "--fpm-config", "/etc/php/7.3/php-fpm.conf"]

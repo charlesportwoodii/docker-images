@@ -1,16 +1,16 @@
-FROM charlesportwoodii/alpine:3.8-base
+FROM charlesportwoodii/alpine:3.9-base
 LABEL reference="https://github.com/charlesportwoodii/docker-images"
 LABEL repository="https://github.com/charlesportwoodii/php-fpm-build"
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 LABEL description="An PHP 7.3 Docker image with XDebug, Composer, Libsodium, Argon2, and other common extensions pre-installed"
 
-ENV XDEBUG_VERSION 2.7.0beta1
+ENV XDEBUG_VERSION 2.7.0RC1
 ENV PHP_VERSION 7.3
 ENV GEOS_VERSION 1.0.0
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_NO_INTERACTION 1
-ENV COMPOSER_HASH 93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8
+ENV COMPOSER_HASH 48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5
 
 RUN apk update && \
     apk add --no-cache git binutils ca-certificates openssl alpine-sdk make automake gcc autoconf libgeos36 libzip
