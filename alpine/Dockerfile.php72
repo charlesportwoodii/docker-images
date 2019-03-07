@@ -1,4 +1,4 @@
-FROM charlesportwoodii/alpine:3.8-base
+FROM charlesportwoodii/alpine:3.9-base
 LABEL reference="https://github.com/charlesportwoodii/docker-images"
 LABEL repository="https://github.com/charlesportwoodii/php-fpm-build"
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"

@@ -13,7 +13,7 @@ The purpose of these boxes is primarily to ensure compatability with the OS pack
 
 A full list of images that TravisCI builds is listed below. The created images will always be available on [DockerHub](https://hub.docker.com/r/charlesportwoodii/docker-images/tags/)
 
-- Alpine Linux 3.6
+- Alpine Linux 3.9
 - Ubuntu 14.04 (trusty)
 - Ubuntu 16.04 (xenial)
 - CentOS 7
@@ -86,14 +86,14 @@ PHP is a popular general-purpose scripting language that is especially suited to
 As I bundle PHP packages for multiple versions, please see the relevant sections below for more information. In general you can start a PHP docker image by running:
 
 ```bash
-docker run  -p <port>:90(70|71|72)
-            -v <php_working_dir>:/etc/php/(7.0|7.1|7.2)
-            charlesportwoodii/php:(7.0|7.1|7.2)
+docker run  -p <port>:90(70|71|72|73)
+            -v <php_working_dir>:/etc/php/(7.0|7.1|7.2|7.3)
+            charlesportwoodii/php:(7.0|7.1|7.2|7.3)
 ```
 
-By default FPM is listening on 90(70|71|72), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.
+By default FPM is listening on 90(70|71|72|73), where the last 2 numbers represent the major and minor version of the PHP version you wish to run. All FPM output (include PHP's slow log) will be redirected to `/dev/stdout`.
 
-Additionally, the entirety of `/etc/php(7.0|7.1|7.2)` is available for mounting. If you have your own custom configuration you would like to load you may do so. In general the folder structure PHP FPM expects is listed below:
+Additionally, the entirety of `/etc/php(7.0|7.1|7.2|7.3)` is available for mounting. If you have your own custom configuration you would like to load you may do so. In general the folder structure PHP FPM expects is listed below:
 
 ```bash
 # Directories
