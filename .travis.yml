@@ -23,6 +23,8 @@ env:
     - OS=alpine IMAGE=build RELEASE_VERSION=3.7
     - OS=alpine IMAGE=base RELEASE_VERSION=3.8
     - OS=alpine IMAGE=build RELEASE_VERSION=3.8
+    - OS=alpine IMAGE=build RELEASE_VERSION=3.9
+    - OS=alpine IMAGE=build RELEASE_VERSION=3.9
 
   global:
   # Docker Email
