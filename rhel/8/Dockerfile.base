@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/rhel8
+FROM registry.access.redhat.com/ubi8-minimal
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 # Install EPEL
