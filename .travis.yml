@@ -17,14 +17,14 @@ env:
     - OS=centos IMAGE=build RELEASE_VERSION=7
     - OS=rhel IMAGE=base RELEASE_VERSION=7
     - OS=rhel IMAGE=build RELEASE_VERSION=7
-    - OS=alpine IMAGE=base RELEASE_VERSION=3.6
-    - OS=alpine IMAGE=build RELEASE_VERSION=3.6
     - OS=alpine IMAGE=base RELEASE_VERSION=3.7
     - OS=alpine IMAGE=build RELEASE_VERSION=3.7
     - OS=alpine IMAGE=base RELEASE_VERSION=3.8
     - OS=alpine IMAGE=build RELEASE_VERSION=3.8
     - OS=alpine IMAGE=build RELEASE_VERSION=3.9
     - OS=alpine IMAGE=build RELEASE_VERSION=3.9
+    - OS=alpine IMAGE=base RELEASE_VERSION=3.10
+    - OS=alpine IMAGE=build RELEASE_VERSION=3.10
 
   global:
   # Docker Email
