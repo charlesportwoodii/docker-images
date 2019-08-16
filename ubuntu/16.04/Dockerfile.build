@@ -16,7 +16,7 @@ RUN mkdir -p /usr/lib64 && \
 
 # Install build tools
 RUN apt-get update && \
-    apt-get -q install libzip4 libzip-dev m4 autogen apt-utils postgresql-contrib-9.6 postgresql-server-dev-9.6 make automake g++ autoconf checkinstall git build-essential libxml2-dev pkg-config libjpeg-turbo8-dev libpng12-dev libfreetype6-dev libicu-dev libmcrypt4 libmcrypt-dev libreadline6-dev libtool ruby ruby-dev lsb-release libgmp-dev libunbound-dev libtasn1-6 libtasn1-6-dev zlib1g-dev libpcre3 libpcre3-dev libluajit-5.1-common luajit libgeoip-dev geoip-database libluajit-5.1-dev luajit unzip libgmp-dev libunbound-dev python2.7 python-dev lsb-release bc luajit-2.0 libnettle2 libxslt-dev libbz2-dev libenchant-dev libldap2-dev libpspell-dev librecode-dev libgmp3-dev cmake libgeos36 libsqlite3-dev -y && \
+    apt-get -q install libzip4 libzip-dev m4 autogen apt-utils postgresql-contrib-9.6 postgresql-server-dev-9.6 make automake g++ autoconf checkinstall git build-essential libxml2-dev pkg-config libjpeg-turbo8-dev libpng12-dev libfreetype6-dev libicu-dev libmcrypt4 libmcrypt-dev libreadline6-dev libtool ruby ruby-dev lsb-release libgmp-dev libunbound-dev libtasn1-6 libtasn1-6-dev zlib1g-dev libpcre3 libpcre3-dev libluajit-5.1-common luajit libgeoip-dev geoip-database libluajit-5.1-dev luajit unzip libgmp-dev libunbound-dev python2.7 python-dev lsb-release bc luajit-2.0 libnettle2 libxslt-dev libbz2-dev libenchant-dev libldap2-dev libpspell-dev librecode-dev libgmp3-dev cmake libgeos36 libsqlite3-dev libwebp-dev libxpm-dev re2c libgssapi-krb5-2 libkrb5-3 libkrb5-dev libonig-dev libedit-dev libpthread-stubs0-dev libssl-dev libcurl4-openssl-dev -y && \
     apt-get clean && \
     apt-get autoclean && \
     apt-get purge -y --auto-remove && \

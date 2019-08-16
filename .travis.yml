@@ -7,8 +7,6 @@ matrix:
 
 env:
   matrix:
-    - OS=ubuntu IMAGE=base RELEASE_VERSION=14.04
-    - OS=ubuntu IMAGE=build RELEASE_VERSION=14.04
     - OS=ubuntu IMAGE=base RELEASE_VERSION=16.04
     - OS=ubuntu IMAGE=build RELEASE_VERSION=16.04
     - OS=ubuntu IMAGE=base RELEASE_VERSION=18.04
