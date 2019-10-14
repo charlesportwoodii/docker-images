@@ -60,6 +60,14 @@ RUN cd /tmp && \
     echo "extension=uopz.so" | tee /etc/php/${PHP_VERSION}/conf.d/uopz.ini && \
     rm -rf /tmp/v${UOPZ_VERSION}.tar.gz /tmp/uopz*
 
+RUN cd /tmp && \
+    git clone --recursive -b $(curl -L https://grpc.io/release) https://github.com/grpc/grpc --depth=10 && \
+    cd /tmp/grpc && \
+    phpize && \
+    ./configure && make install && \
+    echo "extension=grpc.so" | tee /etc/php/${PHP_VERSION}/conf.d/grpc.ini && \
+    rm -rf /tmp/grpc
+
 RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     mkdir -p /root/.bin && \
     chown -R root:root /root/.bin && \
