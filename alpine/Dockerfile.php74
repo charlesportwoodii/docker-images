@@ -2,10 +2,10 @@ FROM charlesportwoodii/alpine:3.10-base
 LABEL reference="https://github.com/charlesportwoodii/docker-images"
 LABEL repository="https://github.com/charlesportwoodii/php-fpm-build"
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
-LABEL description="An PHP 7.3 Docker image with XDebug, Composer, Libsodium, Argon2, and other common extensions pre-installed"
+LABEL description="An PHP 7.4 Docker image with XDebug, Composer, Libsodium, Argon2, and other common extensions pre-installed"
 
 ENV XDEBUG_VERSION 2.8.0
-ENV PHP_VERSION 7.3
+ENV PHP_VERSION 7.4
 ENV GEOS_VERSION 1.0.0
 ENV UOPZ_VERSION 6.1.1
 ENV PROTOBUF_VERSION 3.11.0
@@ -20,7 +20,7 @@ ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 RUN apk update && \
     apk add --no-cache git binutils ca-certificates openssl alpine-sdk make automake gcc g++ autoconf libgeos36 libzip
 
-RUN apk add --no-cache php7.3-common php7.3-fpm php7.3-argon2 php7.3-bz2 php7.3-dev php7.3-enchant php7.3-gd php7.3-gmp php7.3-intl php7.3-ldap php7.3-mbstring php7.3-mysql php7.3-opcache php7.3-pgsql php7.3-pspell php7.3-recode php7.3-redis php7.3-soap php7.3-sodium php7.3-sqlite3 php7.3-xml php7.3-xsl php7.3-zip php7.3-igbinary && \
+RUN apk add --no-cache php7.4-common php7.4-fpm php7.4-bz2 php7.4-dev php7.4-enchant php7.4-gd php7.4-gmp php7.4-intl php7.4-ldap php7.4-mbstring php7.4-mysql php7.4-opcache php7.4-pgsql php7.4-pspell php7.4-redis php7.4-soap php7.4-sodium php7.4-sqlite3 php7.4-xml php7.4-xsl php7.4-igbinary && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
     for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \
@@ -29,7 +29,7 @@ RUN apk add --no-cache php7.3-common php7.3-fpm php7.3-argon2 php7.3-bz2 php7.3-
     ln -s /usr/bin/php-config${PHP_VERSION} /usr/bin/php-config && \
     ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php && \
     strip --strip-all /usr/bin/php && \
-    strip --strip-all /usr/sbin/php-fpm7.3
+    strip --strip-all /usr/sbin/php-fpm7.4
 
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.d/pool.conf /etc/php/${PHP_VERSION}/php-fpm.d/pool.conf
 COPY ./conf/etc/php/${PHP_VERSION}/php-fpm.conf /etc/php/${PHP_VERSION}/php-fpm.conf
@@ -72,14 +72,15 @@ RUN cd /tmp && \
     echo "extension=grpc.so" | tee /etc/php/${PHP_VERSION}/conf.d/grpc.ini && \
     rm -rf /tmp/grpc
 
-RUN cd /tmp && \
-    wget https://pecl.php.net/get/protobuf-${PROTOBUF_VERSION}.tgz && \
-    tar -xf protobuf-${PROTOBUF_VERSION}.tgz && \
-    cd /tmp/protobuf-${PROTOBUF_VERSION} && \
-    phpize && \
-    ./configure && make install && \
-    echo "extension=protobuf.so" | tee /etc/php/${PHP_VERSION}/conf.d/protobuf.ini && \
-    rm -rf /tmp/protobuf-${PROTOBUF_VERSION}
+# Unsupported on PHP 7.4 at launch
+#RUN cd /tmp && \
+#    wget https://pecl.php.net/get/protobuf-${PROTOBUF_VERSION}.tgz && \
+#    tar -xf protobuf-${PROTOBUF_VERSION}.tgz && \
+#    cd /tmp/protobuf-${PROTOBUF_VERSION} && \
+#    phpize && \
+#    ./configure && make install && \
+#    echo "extension=protobuf.so" | tee /etc/php/${PHP_VERSION}/conf.d/protobuf.ini && \
+#    rm -rf /tmp/protobuf-${PROTOBUF_VERSION}
 
 RUN echo "export PATH=\"\$PATH:\$HOME/.bin\"" >> /root/.bashrc && \
     mkdir -p /root/.bin && \
@@ -100,12 +101,12 @@ RUN apk del alpine-sdk make automake gcc g++ autoconf binutils && \
 RUN grep -qF "extension=pdo_mysql.so" "/etc/php/${PHP_VERSION}/conf.d/mysql.ini" || echo "extension=pdo_mysql.so" >> "/etc/php/${PHP_VERSION}/conf.d/mysql.ini"
 
 # Define mountable directories.
-VOLUME ["/etc/php/7.3/", "/var/www"]
+VOLUME ["/etc/php/7.4/", "/var/www"]
 
 # Define working directory.
-WORKDIR /etc/php/7.3
+WORKDIR /etc/php/7.4
 
-EXPOSE 9073
+EXPOSE 9074
 
-ENTRYPOINT ["/usr/sbin/php-fpm7.3", "-R", "--fpm-config", "/etc/php/7.3/php-fpm.conf"]
+ENTRYPOINT ["/usr/sbin/php-fpm7.4", "-R", "--fpm-config", "/etc/php/7.4/php-fpm.conf"]
 
