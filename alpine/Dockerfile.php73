@@ -1,26 +1,25 @@
-FROM charlesportwoodii/alpine:3.10-base
+FROM charlesportwoodii/alpine:3.11-base
 LABEL reference="https://github.com/charlesportwoodii/docker-images"
 LABEL repository="https://github.com/charlesportwoodii/php-fpm-build"
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 LABEL description="An PHP 7.3 Docker image with XDebug, Composer, Libsodium, Argon2, and other common extensions pre-installed"
 
-ENV XDEBUG_VERSION 2.8.0
+ENV XDEBUG_VERSION 2.9.1
 ENV PHP_VERSION 7.3
 ENV GEOS_VERSION 1.0.0
 ENV UOPZ_VERSION 6.1.1
-ENV PROTOBUF_VERSION 3.11.0
-ENV GRPC_VERSION 1.25.0
+ENV PROTOBUF_VERSION 3.11.2
+ENV GRPC_VERSION 1.26.0
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_NO_INTERACTION 1
-ENV COMPOSER_HASH 106d3d32cc30011325228b9272424c1941ad75207cb5244bee161e5f9906b0edf07ab2a733e8a1c945173eb9b1966197
-
+ENV COMPOSER_HASH c5b9b6d368201a9db6f74e2611495f369991b72d9c8cbd3ffbc63edff210eb73d46ffbfce88669ad33695ef77dc76976
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 RUN apk update && \
     apk add --no-cache git binutils ca-certificates openssl alpine-sdk make automake gcc g++ autoconf libgeos36 libzip
 
-RUN apk add --no-cache php7.3-common php7.3-fpm php7.3-argon2 php7.3-bz2 php7.3-dev php7.3-enchant php7.3-gd php7.3-gmp php7.3-intl php7.3-ldap php7.3-mbstring php7.3-mysql php7.3-opcache php7.3-pgsql php7.3-pspell php7.3-recode php7.3-redis php7.3-soap php7.3-sodium php7.3-sqlite3 php7.3-xml php7.3-xsl php7.3-zip php7.3-igbinary && \
+RUN apk add --no-cache php7.3-common php7.3-fpm php7.3-bz2 php7.3-dev php7.3-enchant php7.3-gd php7.3-gmp php7.3-intl php7.3-ldap php7.3-mbstring php7.3-mysql php7.3-opcache php7.3-pgsql php7.3-pspell php7.3-recode php7.3-redis php7.3-soap php7.3-sodium php7.3-sqlite3 php7.3-xml php7.3-xsl php7.3-zip php7.3-igbinary && \
     rm -rf /etc/php/${PHP_VERSION}/mods-available/mods-available && \
     mkdir -p /etc/php/${PHP_VERSION}/conf.d /etc/php/${PHP_VERSION}/php-fpm.d /etc/php/${PHP_VERSION}/mods-available /var/run/php/ /var/log/php/ && \
     for i in $(ls /etc/php/${PHP_VERSION}/mods-available); do ln -s /etc/php/${PHP_VERSION}/mods-available/$i /etc/php/${PHP_VERSION}/conf.d/$i; done && \
