@@ -8,7 +8,9 @@ RUN apt-get update && \
     curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.crt && \
     curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.crt && \
     update-ca-certificates && \
-    sh -c 'echo "deb https://apt.erianna.com/bionic/ bionic main" > /etc/apt/sources.list.d/apt.erianna.com.list' && \
+    curl -fsSL https://www.erianna.com/key.asc | apt-key add - && \
+    curl -fsSL https://www.erianna.com/key.asc | gpg --dearmor -o /usr/share/keyrings/apt.erianna.com.gpg && \
+    sh -c 'echo "deb [signed-by=/usr/share/keyrings/apt.erianna.com.gpg] https://apt.erianna.com/focal/ focal main" > /etc/apt/sources.list.d/apt.erianna.com.list' && \
     curl -qs https://www.erianna.com/key.asc | apt-key add - && \
     apt-get clean && \
     apt-get autoclean && \
