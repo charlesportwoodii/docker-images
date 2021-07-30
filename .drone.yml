@@ -7,56 +7,25 @@ platform:
   arch: amd64
 
 steps:
-  - name: xenial-base-amd64
-    image: docker
-    commands:
-      - docker build -f ubuntu/18.04/Dockerfile.base -t charlesportwoodii/ubuntu:18.04-base-amd64 -t charlesportwoodii/ubuntu:18.04-base --compress --no-cache .
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-  - name: xenial-base-push-amd64
-    image: docker
-    depends_on:
-      - xenial-base-amd64
-    environment:
+  - name: base
+    image: plugins/docker
+    settings:
       username:
         from_secret: DOCKER_USERNAME
       password:
         from_secret: DOCKER_PASSWORD
-    commands:
-      - docker login -u=$username -p=$password
-      - docker push charlesportwoodii/ubuntu:18.04-base-amd64
-      - docker push charlesportwoodii/ubuntu:18.04-base
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-  - name: xenial-build-amd64
-    depends_on:
-      - xenial-base-push-amd64
-    image: docker
-    commands:
-      - docker build -f ubuntu/18.04/Dockerfile.build -t charlesportwoodii/ubuntu:18.04-build-amd64 -t charlesportwoodii/ubuntu:18.04-build --compress --no-cache .
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-  - name: xenial-build-push-amd64
-    depends_on:
-      - xenial-build-amd64
-    image: docker
-    environment:
+      tags:
+        - charlesportwoodii/ubuntu:18.04-base
+        - charlesportwoodii/ubuntu:18.04-base-amd64
+      dockerfile: ubuntu/18.04/Dockerfile.base
+  - name: build
+    image: plugins/docker
+    settings:
       username:
         from_secret: DOCKER_USERNAME
       password:
         from_secret: DOCKER_PASSWORD
-    commands:
-      - docker login -u=$username -p=$password
-      - docker push charlesportwoodii/ubuntu:18.04-build-amd64
-      - docker push charlesportwoodii/ubuntu:18.04-build
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-
-volumes:
-  - name: docker_sock
-    host:
-      path: /var/run/docker.sock
+      tags:
+        - charlesportwoodii/ubuntu:18.04-build
+        - charlesportwoodii/ubuntu:18.04-build-amd64
+      dockerfile: ubuntu/18.04/Dockerfile.build
