@@ -136,7 +136,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: focal-amd64
+name: focal-manifest
 
 platform:
   arch: amd64
@@ -251,7 +251,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine3.11-amd64
+name: alpine3.11-manifest
 
 platform:
   arch: amd64
@@ -366,7 +366,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine3.14-amd64
+name: alpine3.14-manifest
 
 platform:
   arch: amd64
