@@ -126,15 +126,34 @@ depends_on:
   - focal-arm64
 
 steps:
-  - name: manifest
-    image: plugins/manifest
-    settings:
+  - name: manifest-base
+    image: docker
+    environment:
       username:
         from_secret: DOCKER_USERNAME
       password:
         from_secret: DOCKER_PASSWORD
-      target: 20.04-build
-      template: charlesportwoodii/ubuntu:20.04-build-ARCH
-      platforms:
-        - linux/amd64
-        - linux/arm64
+    commands:
+      - docker manifest create charlesportwoodii/ubuntu:20.04-base charlesportwoodii/ubuntu:20.04-base-amd64 charlesportwoodii/ubuntu:20.04-base-arm64
+      - docker manifest push charlesportwoodii/ubuntu:20.04-base
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: manifest-build
+    image: docker
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - docker manifest create charlesportwoodii/ubuntu:20.04-build charlesportwoodii/ubuntu:20.04-build-amd64 charlesportwoodii/ubuntu:20.04-build-arm64
+      - docker manifest push charlesportwoodii/ubuntu:20.04-build
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
