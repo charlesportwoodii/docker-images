@@ -7,14 +7,16 @@ platform:
   arch: amd64
 
 steps:
-  - name: xenial-base
+  - name: base
     image: docker
       - docker build -f ubuntu/18.04/Dockerfile.base -t charlesportwoodii/ubuntu:18.04-base-amd64 -t charlesportwoodii/ubuntu:18.04-base --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: xenial-base-push
+  - name: base-push
     image: docker
+    depends_on:
+      - base
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -23,16 +25,18 @@ steps:
     commands:
       - docker login -u=$username -p=$password
       - docker push charlesportwoodii/ubuntu:18.04-base-amd64
-  - name: xenial-build
+      - docker push charlesportwoodii/ubuntu:18.04-base
+  - name: build
+    depends_on:
+      - base
     image: docker
       - docker build -f ubuntu/18.04/Dockerfile.build -t charlesportwoodii/ubuntu:18.04-build-amd64 -t charlesportwoodii/ubuntu:18.04-build --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: xenial-build-push
+  - name: build-push
     depends_on:
-      - xenial-base
-      - xenial-build
+      - build
     image: docker
     environment:
       username:
@@ -42,6 +46,7 @@ steps:
     commands:
       - docker login -u=$username -p=$password
       - docker push charlesportwoodii/ubuntu:18.04-build-amd64
+      - docker push charlesportwoodii/ubuntu:18.04-build
 
 ---
 kind: pipeline
@@ -52,14 +57,16 @@ platform:
   arch: amd64
 
 steps:
-  - name: focal-base
+  - name: base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/ubuntu:20.04-base-amd64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: focal-base-push
+  - name: base-push
     image: docker
+    depends_on:
+      - base
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -69,16 +76,17 @@ steps:
       - docker login -u=$username -p=$password
       - docker push charlesportwoodii/ubuntu:20.04-base-amd64
   - name: focal-build
+    depends_on:
+      - base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/ubuntu:20.04-build-amd64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: focal-build-push
+  - name: build-push
     image: docker
     depends_on:
-      - focal-base
-      - focal-build
+      - build
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -97,14 +105,16 @@ platform:
   arch: arm64
 
 steps:
-  - name: focal-base
+  - name: base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/ubuntu:20.04-base-arm64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: focal-base-push
+  - name: base-push
     image: docker
+    depends_on:
+      - base
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -113,16 +123,17 @@ steps:
     commands:
       - docker login -u=$username -p=$password
       - docker push charlesportwoodii/ubuntu:20.04-base-arm64
-  - name: focal-build
+  - name: build
+    depends_on:
+      - base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/ubuntu:20.04-build-arm64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: focal-build-push
+  - name: build-push
     depends_on:
-      - focal-base
-      - focal-build
+      - build
     image: docker
     environment:
       username:
@@ -161,20 +172,22 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine3.11-amd64
+name: alpine-3.11-amd64
 
 platform:
   arch: amd64
 
 steps:
-  - name: alpine3.11-base
+  - name: base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/alpine:3.11-base-amd64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: alpine3.11-base-push
+  - name: base-push
     image: docker
+    depends_on:
+      - base
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -183,17 +196,18 @@ steps:
     commands:
       - docker login -u=$username -p=$password
       - docker push charlesportwoodii/alpine:3.11-base-amd64
-  - name: alpine3.11-build
+  - name: alpine-3.11-build
+    depends_on:
+      - base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/alpine:3.11-build-amd64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: alpine3.11-build-push
+  - name: build-push
     image: docker
     depends_on:
-      - alpine3.11-base
-      - alpine3.11-build
+      - build
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -206,20 +220,22 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine3.11-arm64
+name: alpine-3.11-arm64
 
 platform:
   arch: arm64
 
 steps:
-  - name: alpine3.11-base
+  - name: base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/alpine:3.11-base-arm64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: alpine3.11-base-push
+  - name: base-push
     image: docker
+    depends_on:
+      - base
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -228,16 +244,17 @@ steps:
     commands:
       - docker login -u=$username -p=$password
       - docker push charlesportwoodii/alpine:3.11-base-arm64
-  - name: alpine3.11-build
+  - name: build
+    depends_on:
+      - base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/alpine:3.11-build-arm64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: alpine3.11-build-push
+  - name: build-push
     depends_on:
-      - alpine3.11-base
-      - alpine3.11-build
+      - build
     image: docker
     environment:
       username:
@@ -251,17 +268,17 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine3.11-manifest
+name: alpine-3.11-manifest
 
 platform:
   arch: amd64
 
 depends_on:
-  - alpine3.11-amd64
-  - alpine3.11-arm64
+  - alpine-3.11-amd64
+  - alpine-3.11-arm64
 
 steps:
-  - name: alpine3.11-manifest-create
+  - name: alpine-3.11-manifest-create
     image: docker
     environment:
       username:
@@ -276,20 +293,22 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine3.14-amd64
+name: alpine-3.14-amd64
 
 platform:
   arch: amd64
 
 steps:
-  - name: alpine3.14-base
+  - name: base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/alpine:3.14-base-amd64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: alpine3.14-base-push
+  - name: base-push
     image: docker
+    depends_on:
+      - base
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -298,17 +317,18 @@ steps:
     commands:
       - docker login -u=$username -p=$password
       - docker push charlesportwoodii/alpine:3.14-base-amd64
-  - name: alpine3.14-build
+  - name: alpine-3.14-build
+    depends_on:
+      - base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/alpine:3.14-build-amd64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: alpine3.14-build-push
+  - name: build-push
     image: docker
     depends_on:
-      - alpine3.14-base
-      - alpine3.14-build
+      - build
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -321,20 +341,22 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine3.14-arm64
+name: alpine-3.14-arm64
 
 platform:
   arch: arm64
 
 steps:
-  - name: alpine3.14-base
+  - name: base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/alpine:3.14-base-arm64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: alpine3.14-base-push
+  - name: base-push
     image: docker
+    depends_on:
+      - base
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -343,16 +365,17 @@ steps:
     commands:
       - docker login -u=$username -p=$password
       - docker push charlesportwoodii/alpine:3.14-base-arm64
-  - name: alpine3.14-build
+  - name: build
+    depends_on:
+      - base
     image: docker
       - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/alpine:3.14-build-arm64 --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: alpine3.14-build-push
+  - name: build-push
     depends_on:
-      - alpine3.14-base
-      - alpine3.14-build
+      - build
     image: docker
     environment:
       username:
@@ -366,17 +389,17 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine3.14-manifest
+name: alpine-3.14-manifest
 
 platform:
   arch: amd64
 
 depends_on:
-  - alpine3.14-amd64
-  - alpine3.14-arm64
+  - alpine-3.14-amd64
+  - alpine-3.14-arm64
 
 steps:
-  - name: alpine3.14-manifest-create
+  - name: alpine-3.14-manifest-create
     image: docker
     environment:
       username:
