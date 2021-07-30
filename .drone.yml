@@ -283,3 +283,47 @@ volumes:
   - name: docker_sock
     host:
       path: /var/run/docker.sock
+
+---
+kind: pipeline
+type: docker
+name: alpine-3.14
+
+platform:
+  arch: amd64
+
+steps:
+  - name: alpine-3.14-base-buildx
+    image: thegeeklab/drone-docker-buildx:latest
+    privileged: true
+    settings:
+      context: buildx
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+      compress: true
+      repo: charlesportwoodii/alpine
+      tags:
+        - 3.14-base
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      dockerfile: alpine/3.14/Dockerfile.base
+  - name: alpine-3.14-base-buildx
+    image: thegeeklab/drone-docker-buildx:latest
+    privileged: true
+    settings:
+      context: buildx
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+      compress: true
+      repo: charlesportwoodii/alpine
+      tags:
+        - 3.14-build
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      dockerfile: alpine/3.14/Dockerfile.build
