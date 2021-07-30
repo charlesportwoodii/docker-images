@@ -10,8 +10,10 @@ steps:
   - name: base
     image: plugins/docker
     settings:
-      config:
-        from_secret: DOCKER_AUTH_CONFIG
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       compress: true
       repo: charlesportwoodii/ubuntu
       tags:
@@ -23,8 +25,10 @@ steps:
     depends_on:
       - base
     settings:
-      config:
-        from_secret: DOCKER_AUTH_CONFIG
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       compress: true
       repo: charlesportwoodii/ubuntu
       tags:
@@ -44,8 +48,10 @@ steps:
   - name: base
     image: plugins/docker
     settings:
-      config:
-        from_secret: DOCKER_AUTH_CONFIG
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       compress: true
       repo: charlesportwoodii/ubuntu
       tags:
@@ -57,8 +63,10 @@ steps:
     depends_on:
       - base
     settings:
-      config:
-        from_secret: DOCKER_AUTH_CONFIG
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       compress: true
       repo: charlesportwoodii/ubuntu
       tags:
@@ -78,8 +86,10 @@ steps:
   - name: base
     image: plugins/docker
     settings:
-      config:
-        from_secret: DOCKER_AUTH_CONFIG
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       compress: true
       repo: charlesportwoodii/ubuntu
       tags:
@@ -91,8 +101,10 @@ steps:
       - base
     image: plugins/docker
     settings:
-      config:
-        from_secret: DOCKER_AUTH_CONFIG
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       compress: true
       repo: charlesportwoodii/ubuntu
       tags:
@@ -117,8 +129,10 @@ steps:
   - name: manifest
     image: plugins/manifest
     settings:
-      config:
-        from_secret: DOCKER_AUTH_CONFIG
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
       target: 20.04-build
       template: charlesportwoodii/ubuntu:20.04-build-OS-ARCH
       platforms:
