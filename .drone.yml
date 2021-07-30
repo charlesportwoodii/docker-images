@@ -56,6 +56,150 @@ steps:
       - name: docker_sock
         path: /var/run/docker.sock
 
+---
+kind: pipeline
+type: docker
+name: focal-amd64
+
+platform:
+  arch: amd64
+
+steps:
+  - name: base
+    image: docker
+    commands:
+      - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/ubuntu:20.04-base-amd64 -t charlesportwoodii/ubuntu:20.04-base --compress --no-cache .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: base-push
+    image: docker
+    depends_on:
+      - base
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - docker login -u=$username -p=$password
+      - docker push charlesportwoodii/ubuntu:20.04-base-amd64
+      - docker push charlesportwoodii/ubuntu:20.04-base
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: build
+    depends_on:
+      - base
+    image: docker
+    commands:
+      - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/ubuntu:20.04-build-amd64 -t charlesportwoodii/ubuntu:20.04-build --compress --no-cache .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: build-push
+    depends_on:
+      - build
+    image: docker
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - docker login -u=$username -p=$password
+      - docker push charlesportwoodii/ubuntu:20.04-build-amd64
+      - docker push charlesportwoodii/ubuntu:20.04-build
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+---
+kind: pipeline
+type: docker
+name: focal-arm64
+
+platform:
+  arch: arm64
+
+steps:
+  - name: base
+    image: docker
+    commands:
+      - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/ubuntu:20.04-base-arm64 -t charlesportwoodii/ubuntu:20.04-base --compress --no-cache .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: base-push
+    image: docker
+    depends_on:
+      - base
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - docker login -u=$username -p=$password
+      - docker push charlesportwoodii/ubuntu:20.04-base-arm64
+      - docker push charlesportwoodii/ubuntu:20.04-base
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: build
+    depends_on:
+      - base
+    image: docker
+    commands:
+      - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/ubuntu:20.04-build-arm64 -t charlesportwoodii/ubuntu:20.04-build --compress --no-cache .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: build-push
+    depends_on:
+      - build
+    image: docker
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - docker login -u=$username -p=$password
+      - docker push charlesportwoodii/ubuntu:20.04-build-arm64
+      - docker push charlesportwoodii/ubuntu:20.04-build
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+---
+kind: pipeline
+type: docker
+name: focal-manifest
+
+platform:
+  arch: amd64
+
+depends_on:
+  - focal-amd64
+  - focal-arm64
+
+steps:
+  - name: focal-manifest-create
+    image: docker
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - docker login -u=$username -p=$password
+      - docker manifest create charlesportwoodii/ubuntu:20.04-build --amend charlesportwoodii/ubuntu:20.04-build-amd64 --amend charlesportwoodii/ubuntu:20.04-build-arm64
+      - docker manifest push charlesportwoodii/ubuntu:20.04-build
+
 volumes:
   - name: docker_sock
     host:
