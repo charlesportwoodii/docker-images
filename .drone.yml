@@ -7,17 +7,17 @@ platform:
   arch: amd64
 
 steps:
-  - name: base
+  - name: xenial-base-amd64
     image: docker
     commands:
       - docker build -f ubuntu/18.04/Dockerfile.base -t charlesportwoodii/ubuntu:18.04-base-amd64 -t charlesportwoodii/ubuntu:18.04-base --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: base-push
+  - name: xenial-base-push-amd64
     image: docker
     depends_on:
-      - base
+      - xenial-base-amd64
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -30,18 +30,18 @@ steps:
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: build
+  - name: xenial-build-amd64
     depends_on:
-      - base
+      - xenial-base-push-amd64
     image: docker
     commands:
       - docker build -f ubuntu/18.04/Dockerfile.build -t charlesportwoodii/ubuntu:18.04-build-amd64 -t charlesportwoodii/ubuntu:18.04-build --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: build-push
+  - name: xenial-build-push-amd64
     depends_on:
-      - build
+      - xenial-build-amd64
     image: docker
     environment:
       username:
@@ -65,17 +65,17 @@ platform:
   arch: amd64
 
 steps:
-  - name: base
+  - name: focal-base-amd64
     image: docker
     commands:
-      - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/ubuntu:20.04-base-amd64 -t charlesportwoodii/ubuntu:20.04-base --compress --no-cache .
+      - docker build -f ubuntu/18.04/Dockerfile.base -t charlesportwoodii/ubuntu:18.04-base-amd64 -t charlesportwoodii/ubuntu:18.04-base --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: base-push
+  - name: focal-base-push-amd64
     image: docker
     depends_on:
-      - base
+      - focal-base-amd64
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -83,23 +83,23 @@ steps:
         from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u=$username -p=$password
-      - docker push charlesportwoodii/ubuntu:20.04-base-amd64
-      - docker push charlesportwoodii/ubuntu:20.04-base
+      - docker push charlesportwoodii/ubuntu:18.04-base-amd64
+      - docker push charlesportwoodii/ubuntu:18.04-base
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: build
+  - name: focal-build-amd64
     depends_on:
-      - base
+      - focal-base-push-amd64
     image: docker
     commands:
-      - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/ubuntu:20.04-build-amd64 -t charlesportwoodii/ubuntu:20.04-build --compress --no-cache .
+      - docker build -f ubuntu/18.04/Dockerfile.build -t charlesportwoodii/ubuntu:18.04-build-amd64 -t charlesportwoodii/ubuntu:18.04-build --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: build-push
+  - name: focal-build-push-amd64
     depends_on:
-      - build
+      - focal-build-amd64
     image: docker
     environment:
       username:
@@ -108,8 +108,8 @@ steps:
         from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u=$username -p=$password
-      - docker push charlesportwoodii/ubuntu:20.04-build-amd64
-      - docker push charlesportwoodii/ubuntu:20.04-build
+      - docker push charlesportwoodii/ubuntu:18.04-build-amd64
+      - docker push charlesportwoodii/ubuntu:18.04-build
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -123,17 +123,17 @@ platform:
   arch: arm64
 
 steps:
-  - name: base
+  - name: focal-base-arm64
     image: docker
     commands:
-      - docker build -f ubuntu/20.04/Dockerfile.base -t charlesportwoodii/ubuntu:20.04-base-arm64 -t charlesportwoodii/ubuntu:20.04-base --compress --no-cache .
+      - docker build -f ubuntu/18.04/Dockerfile.base -t charlesportwoodii/ubuntu:18.04-base-arm64 -t charlesportwoodii/ubuntu:18.04-base --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: base-push
+  - name: focal-base-push-arm64
     image: docker
     depends_on:
-      - base
+      - focal-base-arm64
     environment:
       username:
         from_secret: DOCKER_USERNAME
@@ -141,23 +141,23 @@ steps:
         from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u=$username -p=$password
-      - docker push charlesportwoodii/ubuntu:20.04-base-arm64
-      - docker push charlesportwoodii/ubuntu:20.04-base
+      - docker push charlesportwoodii/ubuntu:18.04-base-arm64
+      - docker push charlesportwoodii/ubuntu:18.04-base
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: build
+  - name: focal-build-arm64
     depends_on:
-      - base
+      - focal-base-push-arm64
     image: docker
     commands:
-      - docker build -f ubuntu/20.04/Dockerfile.build -t charlesportwoodii/ubuntu:20.04-build-arm64 -t charlesportwoodii/ubuntu:20.04-build --compress --no-cache .
+      - docker build -f ubuntu/18.04/Dockerfile.build -t charlesportwoodii/ubuntu:18.04-build-arm64 -t charlesportwoodii/ubuntu:18.04-build --compress --no-cache .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: build-push
+  - name: focal-build-push-arm64
     depends_on:
-      - build
+      - focal-build-arm64
     image: docker
     environment:
       username:
@@ -166,8 +166,8 @@ steps:
         from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u=$username -p=$password
-      - docker push charlesportwoodii/ubuntu:20.04-build-arm64
-      - docker push charlesportwoodii/ubuntu:20.04-build
+      - docker push charlesportwoodii/ubuntu:18.04-build-arm64
+      - docker push charlesportwoodii/ubuntu:18.04-build
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
