@@ -134,6 +134,7 @@ steps:
       password:
         from_secret: DOCKER_PASSWORD
     commands:
+      - docker login -u=$username -p=$password
       - docker manifest create charlesportwoodii/ubuntu:20.04-base charlesportwoodii/ubuntu:20.04-base-amd64 charlesportwoodii/ubuntu:20.04-base-arm64
       - docker manifest push charlesportwoodii/ubuntu:20.04-base
     volumes:
@@ -147,6 +148,7 @@ steps:
       password:
         from_secret: DOCKER_PASSWORD
     commands:
+      - docker login -u=$username -p=$password
       - docker manifest create charlesportwoodii/ubuntu:20.04-build charlesportwoodii/ubuntu:20.04-build-amd64 charlesportwoodii/ubuntu:20.04-build-arm64
       - docker manifest push charlesportwoodii/ubuntu:20.04-build
     volumes:
