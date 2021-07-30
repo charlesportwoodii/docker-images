@@ -81,8 +81,6 @@ platform:
 steps:
   - name: base
     image: plugins/docker
-    depends_on:
-      - base
     settings:
       username:
         from_secret: DOCKER_USERNAME
@@ -94,6 +92,8 @@ steps:
         - 20.04-base-arm64
       dockerfile: ubuntu/20.04/Dockerfile.base
   - name: build
+    depends_on:
+      - base
     image: plugins/docker
     settings:
       username:
