@@ -134,7 +134,7 @@ steps:
       password:
         from_secret: DOCKER_PASSWORD
       target: 20.04-build
-      template: charlesportwoodii/ubuntu:20.04-build-OS-ARCH
+      template: charlesportwoodii/ubuntu:20.04-build-ARCH
       platforms:
         - linux/amd64
         - linux/arm64
