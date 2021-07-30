@@ -135,7 +135,7 @@ steps:
         from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u=$username -p=$password
-      - docker manifest create charlesportwoodii/ubuntu:20.04-base charlesportwoodii/ubuntu:20.04-base-amd64 charlesportwoodii/ubuntu:20.04-base-arm64
+      - docker manifest create charlesportwoodii/ubuntu:20.04-base --amend charlesportwoodii/ubuntu:20.04-base-amd64 --amend charlesportwoodii/ubuntu:20.04-base-arm64
       - docker manifest push charlesportwoodii/ubuntu:20.04-base
     volumes:
       - name: docker_sock
@@ -149,7 +149,7 @@ steps:
         from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u=$username -p=$password
-      - docker manifest create charlesportwoodii/ubuntu:20.04-build charlesportwoodii/ubuntu:20.04-build-amd64 charlesportwoodii/ubuntu:20.04-build-arm64
+      - docker manifest create charlesportwoodii/ubuntu:20.04-build --amend charlesportwoodii/ubuntu:20.04-build-amd64 --amend charlesportwoodii/ubuntu:20.04-build-arm64
       - docker manifest push charlesportwoodii/ubuntu:20.04-build
     volumes:
       - name: docker_sock
@@ -259,7 +259,7 @@ steps:
         from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u=$username -p=$password
-      - docker manifest create charlesportwoodii/alpine:3.11-base charlesportwoodii/alpine:3.11-base-amd64 charlesportwoodii/alpine:3.11-base-arm64
+      - docker manifest create charlesportwoodii/alpine:3.11-base --amend charlesportwoodii/alpine:3.11-base-amd64 --amend charlesportwoodii/alpine:3.11-base-arm64
       - docker manifest push charlesportwoodii/alpine:3.11-base
     volumes:
       - name: docker_sock
@@ -273,7 +273,7 @@ steps:
         from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u=$username -p=$password
-      - docker manifest create charlesportwoodii/alpine:3.11-build charlesportwoodii/alpine:3.11-build-amd64 charlesportwoodii/alpine:3.11-build-arm64
+      - docker manifest create charlesportwoodii/alpine:3.11-build --amend charlesportwoodii/alpine:3.11-build-amd64 --amend charlesportwoodii/alpine:3.11-build-arm64
       - docker manifest push charlesportwoodii/alpine:3.11-build
     volumes:
       - name: docker_sock
