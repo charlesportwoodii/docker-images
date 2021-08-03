@@ -3,9 +3,13 @@ ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
 RUN mkdir -p /usr/lib64
-RUN ln -sf /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib64/libldap.so
-RUN ln -sf /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib64/liblber.so
-RUN ln -sf /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
+RUN if [ -f /usr/lib/x86_64-linux-gnu/libldap.so ]; then ln -sf /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib64/libldap.so; fi
+RUN if [ -f /usr/lib/x86_64-linux-gnu/liblber.so ]; then ln -sf /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib64/liblber.so; fi
+RUN if [ -f /usr/include/x86_64-linux-gnu/gmp.h ]; then ln -sf /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.ho; fi
+
+RUN if [ -f /usr/lib/aarch64-linux-gnu/libldap.so ]; then ln -sf /usr/lib/aarch64-linux-gnu/libldap.so /usr/lib64/libldap.so; fi
+RUN if [ -f /usr/lib/aarch64-linux-gnu/liblber.so ]; then ln -sf /usr/lib/aarch64-linux-gnu/liblber.so /usr/lib64/liblber.so; fi
+RUN if [ -f /usr/include/aarch64-linux-gnu/gmp.h ]; then ln -sf /usr/include/aarch64-linux-gnu/gmp.h /usr/include/gmp.ho; fi
 
 # Install build tools
 RUN apt-get update
