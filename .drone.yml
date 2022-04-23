@@ -384,13 +384,13 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: alpine- 3.15
+name: jammy-buildx
 
 platform:
   arch: amd64
 
 steps:
-  - name: jelly-base-buildx
+  - name: jammy-base-buildx
     image: docker
     environment:
       username:
@@ -408,7 +408,7 @@ steps:
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
-  - name: jelly-build-buildx
+  - name: jammy-build-buildx
     image: docker
     environment:
       username:
