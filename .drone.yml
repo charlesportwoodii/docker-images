@@ -303,7 +303,7 @@ steps:
     commands:
       - apk add --no-cache curl
       - mkdir -p ~/.docker/cli-plugins
-      - curl -Lqqs https://github.com/docker/buildx/releases/download/v0.6.0/buildx-v0.6.0.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+      - curl -Lqqs https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
       - chmod +x ~/.docker/cli-plugins/docker-buildx
       - docker buildx create --use
       - docker login -u=$username -p=$password
@@ -321,7 +321,7 @@ steps:
     commands:
       - apk add --no-cache curl
       - mkdir -p ~/.docker/cli-plugins
-      - curl -Lqqs https://github.com/docker/buildx/releases/download/v0.6.0/buildx-v0.6.0.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+      - curl -Lqqs https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
       - chmod +x ~/.docker/cli-plugins/docker-buildx
       - docker buildx create --use
       - docker login -u=$username -p=$password
@@ -354,7 +354,7 @@ steps:
     commands:
       - apk add --no-cache curl
       - mkdir -p ~/.docker/cli-plugins
-      - curl -Lqqs https://github.com/docker/buildx/releases/download/v0.6.0/buildx-v0.6.0.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+      - curl -Lqqshttps://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
       - chmod +x ~/.docker/cli-plugins/docker-buildx
       - docker buildx create --use
       - docker login -u=$username -p=$password
@@ -377,6 +377,52 @@ steps:
       - docker buildx create --use
       - docker login -u=$username -p=$password
       - docker buildx build -f alpine/3.15/Dockerfile.build --push --platform linux/arm64,linux/amd64 -t charlesportwoodii/alpine:3.15-build --no-cache --compress .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+---
+kind: pipeline
+type: docker
+name: alpine- 3.15
+
+platform:
+  arch: amd64
+
+steps:
+  - name: jelly-base-buildx
+    image: docker
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - apk add --no-cache curl
+      - mkdir -p ~/.docker/cli-plugins
+      - curl -Lqqshttps://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+      - chmod +x ~/.docker/cli-plugins/docker-buildx
+      - docker buildx create --use
+      - docker login -u=$username -p=$password
+      - docker buildx build -f ubuntu/22.04/Dockerfile.base --push --platform linux/arm64,linux/amd64 -t charlesportwoodii/ubuntu:22.04-base --no-cache --compress .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: jelly-build-buildx
+    image: docker
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - apk add --no-cache curl
+      - mkdir -p ~/.docker/cli-plugins
+      - curl -Lqqs https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+      - chmod +x ~/.docker/cli-plugins/docker-buildx
+      - docker buildx create --use
+      - docker login -u=$username -p=$password
+      - docker buildx build -f ubuntu/22.04/Dockerfile.build --push --platform linux/arm64,linux/amd64 -t charlesportwoodii/ubuntu:22.04-build --no-cache --compress .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
