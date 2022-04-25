@@ -15,12 +15,16 @@ RUN if [ -f /usr/lib/aarch64-linux-gnu/libldap.so ]; then ln -sf /usr/lib/aarch6
 RUN if [ -f /usr/lib/aarch64-linux-gnu/liblber.so ]; then ln -sf /usr/lib/aarch64-linux-gnu/liblber.so /usr/lib64/liblber.so; fi
 RUN if [ -f /usr/include/aarch64-linux-gnu/gmp.h ]; then ln -sf /usr/include/aarch64-linux-gnu/gmp.h /usr/include/gmp.ho; fi
 
-RUN apt-get upgrade -y
+RUN apt-get purge -y --auto-remove
+RUN apt-mark hold python3-minimal
+RUN apt-get install ruby -y --no-install-recommends
+
+#RUN apt-get upgrade -y
 RUN apt-get clean
 RUN apt-get autoclean
 RUN apt-get purge -y --auto-remove
 RUN rm -rf /var/lib/apt/lists/*
 
 # Install FPM
-RUN curl -qs https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/index.rubygems.org/GlobalSignRootCA.pem > $(ruby -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE')
+RUN curl -qs https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/rubygems.org/GlobalSignRootCA_R3.pem > $(ruby -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE')
 RUN gem install fpm

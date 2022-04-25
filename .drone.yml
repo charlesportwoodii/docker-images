@@ -39,130 +39,6 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: focal-amd64
-
-platform:
-  arch: amd64
-
-steps:
-  - name: base
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: DOCKER_USERNAME
-      password:
-        from_secret: DOCKER_PASSWORD
-      compress: true
-      repo: charlesportwoodii/ubuntu
-      tags:
-        - 20.04-base
-        - 20.04-base-amd64
-      dockerfile: ubuntu/20.04/Dockerfile.base
-  - name: build
-    image: plugins/docker
-    depends_on:
-      - base
-    settings:
-      username:
-        from_secret: DOCKER_USERNAME
-      password:
-        from_secret: DOCKER_PASSWORD
-      compress: true
-      repo: charlesportwoodii/ubuntu
-      tags:
-        - 20.04-build
-        - 20.04-build-amd64
-      dockerfile: ubuntu/20.04/Dockerfile.build
-
----
-kind: pipeline
-type: docker
-name: focal-arm64
-
-platform:
-  arch: arm64
-
-steps:
-  - name: base
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: DOCKER_USERNAME
-      password:
-        from_secret: DOCKER_PASSWORD
-      compress: true
-      repo: charlesportwoodii/ubuntu
-      tags:
-        - 20.04-base
-        - 20.04-base-arm64
-      dockerfile: ubuntu/20.04/Dockerfile.base
-  - name: build
-    depends_on:
-      - base
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: DOCKER_USERNAME
-      password:
-        from_secret: DOCKER_PASSWORD
-      compress: true
-      repo: charlesportwoodii/ubuntu
-      tags:
-        - 20.04-build
-        - 20.04-build-arm64
-      dockerfile: ubuntu/20.04/Dockerfile.build
-
-
----
-kind: pipeline
-type: docker
-name: focal-manifest
-
-platform:
-  arch: amd64
-
-depends_on:
-  - focal-amd64
-  - focal-arm64
-
-steps:
-  - name: manifest-base
-    image: docker
-    environment:
-      username:
-        from_secret: DOCKER_USERNAME
-      password:
-        from_secret: DOCKER_PASSWORD
-    commands:
-      - docker login -u=$username -p=$password
-      - docker manifest create charlesportwoodii/ubuntu:20.04-base --amend charlesportwoodii/ubuntu:20.04-base-amd64 --amend charlesportwoodii/ubuntu:20.04-base-arm64
-      - docker manifest push charlesportwoodii/ubuntu:20.04-base
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-  - name: manifest-build
-    image: docker
-    environment:
-      username:
-        from_secret: DOCKER_USERNAME
-      password:
-        from_secret: DOCKER_PASSWORD
-    commands:
-      - docker login -u=$username -p=$password
-      - docker manifest create charlesportwoodii/ubuntu:20.04-build --amend charlesportwoodii/ubuntu:20.04-build-amd64 --amend charlesportwoodii/ubuntu:20.04-build-arm64
-      - docker manifest push charlesportwoodii/ubuntu:20.04-build
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-
-volumes:
-  - name: docker_sock
-    host:
-      path: /var/run/docker.sock
-
----
-kind: pipeline
-type: docker
 name: alpine-3.11-amd64
 
 platform:
@@ -387,7 +263,7 @@ type: docker
 name: jammy-buildx
 
 platform:
-  arch: amd64
+  arch: arm64
 
 steps:
   - name: jammy-base-buildx
@@ -423,6 +299,57 @@ steps:
       - docker buildx create --use
       - docker login -u=$username -p=$password
       - docker buildx build -f ubuntu/22.04/Dockerfile.build --push --platform linux/arm64,linux/amd64 -t charlesportwoodii/ubuntu:22.04-build --no-cache --compress .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
+
+---
+kind: pipeline
+type: docker
+name: focal-buildx
+
+platform:
+  arch: arm64
+
+steps:
+  - name: focal-base-buildx
+    image: docker
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - apk add --no-cache curl
+      - mkdir -p ~/.docker/cli-plugins
+      - curl -Lqqs https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+      - chmod +x ~/.docker/cli-plugins/docker-buildx
+      - docker buildx create --use
+      - docker login -u=$username -p=$password
+      - docker buildx build -f ubuntu/20.04/Dockerfile.base --push --platform linux/arm64,linux/amd64 -t charlesportwoodii/ubuntu:20.04-base --no-cache --compress .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  - name: focal-build-buildx
+    image: docker
+    environment:
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - apk add --no-cache curl
+      - mkdir -p ~/.docker/cli-plugins
+      - curl -Lqqs https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+      - chmod +x ~/.docker/cli-plugins/docker-buildx
+      - docker buildx create --use
+      - docker login -u=$username -p=$password
+      - docker buildx build -f ubuntu/20.04/Dockerfile.build --push --platform linux/arm64,linux/amd64 -t charlesportwoodii/ubuntu:20.04-build --no-cache --compress .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
