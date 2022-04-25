@@ -263,7 +263,7 @@ type: docker
 name: jammy-buildx
 
 platform:
-  arch: arm64
+  arch: amd64
 
 steps:
   - name: jammy-base-buildx
@@ -314,7 +314,7 @@ type: docker
 name: focal-buildx
 
 platform:
-  arch: arm64
+  arch: amd64
 
 steps:
   - name: focal-base-buildx
