@@ -16,7 +16,10 @@ RUN apt-get update
 RUN apt-get install gnupg2 ca-certificates wget apt-transport-https curl -y --no-install-recommends
 RUN curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.crt
 RUN curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.crt
+RUN curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.crt
+
 RUN update-ca-certificates
+RUN apt-get install --reinstall ca-certificates
 RUN curl -fsSL https://www.erianna.com/key.asc | gpg --dearmor -o /usr/share/keyrings/apt.erianna.com.gpg
 RUN apt-key add /usr/share/keyrings/apt.erianna.com.gpg
 RUN /usr/bin/sh -c 'echo "deb [signed-by=/usr/share/keyrings/apt.erianna.com.gpg] https://apt.erianna.com/jammy/ jammy main" > /etc/apt/sources.list.d/apt.erianna.com.list'
