@@ -220,7 +220,7 @@ platform:
   arch: amd64
 
 steps:
-  - name: alpine- 3.15-base-buildx
+  - name: alpine-3.15-base-buildx
     image: docker
     environment:
       username:
@@ -256,6 +256,11 @@ steps:
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
 
 ---
 kind: pipeline
