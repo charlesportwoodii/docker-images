@@ -2,12 +2,10 @@ FROM charlesportwoodii/ubuntu:22.04-base
 ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
 
-# Install build tools
 RUN apt-get update
-RUN apt-get -q install libzip-dev m4 autogen apt-utils libpq-dev postgresql-contrib postgresql-server-dev-14 make automake g++ autoconf checkinstall git build-essential libxml2-dev pkg-config libjpeg-turbo8-dev libpng-dev libfreetype6-dev libicu-dev libmcrypt4 libmcrypt-dev libreadline6-dev libtool ruby ruby-dev lsb-release libgmp-dev libunbound-dev libtasn1-6 libtasn1-6-dev zlib1g-dev libpcre3 libpcre3-dev libluajit-5.1-common luajit libgeoip-dev geoip-database libluajit-5.1-dev luajit unzip libgmp-dev libunbound-dev python2.7 python2-dev lsb-release bc libxslt-dev  libbz2-dev libenchant-2-dev libldap2-dev libpspell-dev librecode-dev libgmp3-dev cmake libsqlite3-dev libwebp-dev libxpm-dev re2c libgssapi-krb5-2 libkrb5-3 libkrb5-dev libonig-dev libedit-dev libpthread-stubs0-dev libssl-dev libcurl4-openssl-dev libbison-dev bison -y || true 2>/dev/null
-
-RUN apt autoremove -y
-RUN apt install luajit-2.1 libbrotli libzip4 -y --no-install-recommends
+RUN apt-get install --reinstall python3-minimal -y
+RUN apt-get upgrade -y
+RUN apt-get -q install libzip-dev m4 autogen apt-utils libpq-dev postgresql-contrib postgresql-server-dev-14 make automake g++ autoconf checkinstall git build-essential libxml2-dev pkg-config libjpeg-turbo8-dev libpng-dev libfreetype6-dev libicu-dev libmcrypt4 libmcrypt-dev libreadline6-dev libtool ruby ruby-dev lsb-release libgmp-dev libunbound-dev libtasn1-6 libtasn1-6-dev zlib1g-dev libpcre3 libpcre3-dev libluajit-5.1-common luajit libgeoip-dev geoip-database libluajit-5.1-dev luajit unzip libgmp-dev libunbound-dev python2.7 python2-dev lsb-release bc libxslt-dev  libbz2-dev libenchant-2-dev libldap2-dev libpspell-dev librecode-dev libgmp3-dev cmake libsqlite3-dev libwebp-dev libxpm-dev re2c libgssapi-krb5-2 libkrb5-3 libkrb5-dev libonig-dev libedit-dev libpthread-stubs0-dev libssl-dev libcurl4-openssl-dev libbison-dev bison  luajit-2.1 libbrotli libzip4 -y
 
 RUN mkdir -p /usr/lib64
 RUN if [ -f /usr/lib/x86_64-linux-gnu/libldap.so ]; then ln -sf /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib64/libldap.so; fi
@@ -19,7 +17,6 @@ RUN if [ -f /usr/lib/aarch64-linux-gnu/liblber.so ]; then ln -sf /usr/lib/aarch6
 RUN if [ -f /usr/include/aarch64-linux-gnu/gmp.h ]; then ln -sf /usr/include/aarch64-linux-gnu/gmp.h /usr/include/gmp.ho; fi
 
 RUN apt-get purge -y --auto-remove
-RUN apt-mark hold python3-minimal
 RUN apt-get install ruby -y --no-install-recommends
 #RUN apt-get upgrade -y
 RUN apt-get clean
