@@ -13,7 +13,7 @@ RUN ln -s /bin/rm /usr/sbin/rm
 
 # Add our deb repository
 RUN apt-get update
-RUN apt-get install gnupg2 ca-certificates wget apt-transport-https curl -y --no-install-recommends
+RUN apt-get install gnupg2 ca-certificates wget apt-transport-https curl libzip4 -y --no-install-recommends
 RUN curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.crt
 RUN curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.crt
 RUN curl -qs https://letsencrypt.org/certs/isrgrootx1.pem -o /usr/local/share/ca-certificates/isrgrootx1.crt
