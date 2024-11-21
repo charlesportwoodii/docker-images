@@ -1,0 +1,29 @@
+FROM ubuntu:24.04
+ENV DEBIAN_FRONTEND noninteractive
+LABEL maintainer="Charles R. Portwood II <charlesportwoodii@erianna.com>"
+
+ENV PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+RUN ln -s /usr/bin/dpkg-split /usr/sbin/dpkg-split
+RUN ln -s /usr/bin/dpkg-deb /usr/sbin/dpkg-deb
+RUN ln -s /usr/bin/sh /usr/local/sbin/sh
+RUN ln -s /usr/bin/gpg /usr/local/sbin/gpg
+RUN ln -s /bin/tar /usr/sbin/tar
+RUN ln -s /bin/rm /usr/sbin/rm
+
+# Add our deb repository
+RUN apt-get update
+RUN apt-get install gnupg2 ca-certificates wget apt-transport-https curl libzip4 -y --no-install-recommends
+RUN curl -qs https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -o  /usr/local/share/ca-certificates/lets-encrypt-x3-cross-signed.crt
+RUN curl -qs https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt -o /usr/local/share/ca-certificates/letsencryptauthorityx3.crt
+RUN curl -qs https://letsencrypt.org/certs/isrgrootx1.pem -o /usr/local/share/ca-certificates/isrgrootx1.crt
+RUN curl -qs https://letsencrypt.org/certs/lets-encrypt-r3.pem -o /usr/local/share/ca-certificates/letsencryptauthorityr3.crt
+
+RUN update-ca-certificates
+RUN apt-get install --reinstall ca-certificates
+RUN curl -fsSL https://www.erianna.com/key.asc | gpg --dearmor -o /usr/share/keyrings/apt.erianna.com.gpg
+RUN apt-key add /usr/share/keyrings/apt.erianna.com.gpg
+RUN /usr/bin/sh -c 'echo "deb [signed-by=/usr/share/keyrings/apt.erianna.com.gpg] https://apt.erianna.com/noble/ noble main" > /etc/apt/sources.list.d/apt.erianna.com.list'
+RUN apt-get clean
+RUN apt-get autoclean
+RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
